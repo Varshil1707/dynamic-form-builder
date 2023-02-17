@@ -1,0 +1,199 @@
+{
+  "elements": [
+    {
+      "dataElements": [
+        {
+          "type": "Input",
+          "data": [
+            {
+              "inputFieldName": "Fullname",
+              "label": "Please Enter your first name",
+              "typeSelectField": "text"
+            },
+            {
+              "inputFieldName": "email",
+              "label": "Please Enter your Email",
+              "typeSelectField": "email"
+            },
+            {
+              "inputFieldName": "mobile number",
+              "label": "Please Enter your mobile number",
+              "typeSelectField": "number"
+            }
+          ]
+        },
+        {
+          "type": "RadioBox",
+          "data": [
+            {
+              "radioValueField": "male",
+              "radioLabelField": "Male"
+            },
+            {
+              "radioValueField": "female",
+              "radioLabelField": "Female"
+            }
+          ]
+        },
+        {
+          "type": "CheckBox",
+          "data": [
+            {
+              "checkBoxLabelValue": "male",
+              "label": "Male"
+            },
+            {
+              "checkBoxLabelValue": "female",
+              "label": "Female"
+            }
+          ]
+        },
+        {
+          "type": "TextArea",
+          "data": [
+            {
+              "name": "description",
+              "place_holder": "Tell Me About Yourself"
+            }
+          ]
+        }
+      ],
+      "id": 1
+    },
+    {
+      "dataElements": [
+        {
+          "type": "Input",
+          "data": [
+            {
+              "inputFieldName": "SUrname",
+              "label": "Enter Your Surname",
+              "typeSelectField": "text"
+            },
+            {
+              "inputFieldName": "Firstname",
+              "label": "Enter Your Firstname",
+              "typeSelectField": "text"
+            }
+          ]
+        },
+        {
+          "type": "RadioBox",
+          "data": [
+            {
+              "radioValueField": "male",
+              "radioLabelField": "male"
+            },
+            {
+              "radioValueField": "female",
+              "radioLabelField": "female"
+            }
+          ]
+        },
+        {
+          "type": "CheckBox",
+          "data": [
+            {
+              "checkBoxLabelValue": "Ahmedavad"
+            },
+            {
+              "checkBoxLabelValue": "Surat"
+            }
+          ]
+        }
+      ],
+      "id": 2
+    },
+    {
+      "dataElements": [
+        {
+          "type": "Input",
+          "data": [
+            {
+              "inputFieldName": "Fullname",
+              "label": "Enter Fullnamer",
+              "typeSelectField": "text"
+            }
+          ]
+        }
+      ],
+      "id": 3
+    },
+    {
+      "dataElements": [
+        {
+          "type": "Input",
+          "data": [
+            {
+              "inputFieldName": "Fullname",
+              "label": "Enter Fullnamer",
+              "typeSelectField": "text"
+            }
+          ]
+        }
+      ],
+      "id": 4
+    },
+    {
+      "dataElements": [
+        {
+          "type": "Input",
+          "data": []
+        }
+      ],
+      "id": 5
+    },
+    {
+      "dataElements": [
+        {
+          "type": "CheckBox",
+          "data": [
+            {
+              "checkBoxLabelValue": "Tell Me about yourself"
+            }
+          ]
+        },
+        {
+          "type": "RadioBox",
+          "data": [
+            {
+              "radioValueField": "Hello",
+              "radioLabelField": "Description"
+            }
+          ]
+        },
+        {
+          "type": "TextArea",
+          "data": [
+            {
+              "descriptionPlaceholderField": "Description"
+            }
+          ]
+        }
+      ],
+      "id": 6
+    },
+    {
+      "dataElements": [
+        {
+          "type": "CheckBox",
+          "data": []
+        }
+      ],
+      "id": 7
+    },
+    {
+      "dataElements": [
+        {
+          "type": "RadioBox",
+          "data": []
+        },
+        {
+          "type": "Input",
+          "data": []
+        }
+      ],
+      "id": 8
+    }
+  ]
+}
