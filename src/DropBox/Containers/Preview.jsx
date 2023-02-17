@@ -19,14 +19,14 @@ import Inputprevi from "./PreviewComponents/Inputpreview";
 import RadioBox from "./PreviewComponents/RadioBox";
 import CheckBox from "./PreviewComponents/Checkbox";
 import TextArea from "./PreviewComponents/TextArea";
+import { LinearProgress } from "@mui/material";
 //import Footer from '../../LeftBar/Footer'
 
 const drawerWidth = 240;
 
 const Preview = () => {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-
+  const [loader, setLoader] = useState(false);
   //Api State
   const [elements, setElements] = useState([]);
 
@@ -34,20 +34,19 @@ const Preview = () => {
   console.log("param", param);
 
   useEffect(() => {
+    setLoader(true);
     document.getElementById("drawerButton").style.display = "none";
 
-    axios({ url: `https://dynamic-form-builder-json-server.onrender.com/elements${param.id}`, method: "get" })
+    axios({
+      url: `https://dynamic-form-builder-json-server.onrender.com/elements/${param.id}`,
+      method: "get",
+    })
       .then((response) => {
         setElements(response.data.dataElements);
-
-        // let dataElements = response.data.dataElements;
-        // dataElements = dataElements.filter(
-        //   (dataElement) => dataElement != null
-        // );
-        // const elements = dataElements.map((dataElement) => dataElement[0]);
-        // setElements([...elements]);
+        setLoader(false);
       })
       .catch((error) => {
+        setLoader(false);
         console.log("error", error.message);
       });
 
@@ -66,6 +65,11 @@ const Preview = () => {
         mt={9}
         sx={{ flexGrow: 1 }}
       >
+        {loader && (
+          <Box sx={{ width: "100%" }}>
+            <LinearProgress />
+          </Box>
+        )}
         {elements.map((element, index) => {
           let jsx;
 
@@ -86,9 +90,7 @@ const Preview = () => {
             jsx = (
               <>
                 {/* {element.data.map((item, index) => ( */}
-                  <RadioBox
-                    data = {element.data}
-                  />
+                <RadioBox data={element.data} />
                 {/* ))} */}
               </>
             );
@@ -96,7 +98,11 @@ const Preview = () => {
             jsx = (
               <>
                 {element.data.map((item, index) => (
-                  <CheckBox key={index} value={item.checkBoxLabelValue} label = {item.checkBoxLabelValue}  />
+                  <CheckBox
+                    key={index}
+                    value={item.checkBoxLabelValue}
+                    label={item.checkBoxLabelValue}
+                  />
                 ))}
               </>
             );

@@ -253,11 +253,13 @@ const Index = ({ setId }) => {
       >
         Preview
       </Typography>
+
       {loader && (
         <Box sx={{ width: "100%" }}>
           <LinearProgress />
         </Box>
       )}
+      
       <Box
         minHeight={"700px"}
         border={1}
