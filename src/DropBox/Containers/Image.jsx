@@ -11,17 +11,13 @@ const Image = ({
   setTypeSelectField,
   saveInputs,
 }) => {
-  // setData({inputType : fieldInput,placeholderFieldName : label,selectTypeName : selectOption})
-  // manage state
 
   return (
     <div>
       <Box
         component="form"
-        // id={`image-container-${index}`}
-        // className="image-container"
-        // border={1}
         p={2}
+        border = {1}
         mb={2}
         sx={{
           display: "flex",
@@ -39,8 +35,8 @@ const Image = ({
         />
         <TextField
           placeholder="Enter Placeholder Field"
-          variant = "outlined"
-          onChange={(e) => setPlaceholderFiledName(e.target.value)}
+          variant ="outlined"
+          onChange={(e) => setPlaceholderFiledName(e.target.value)} 
         />
         <Select
           onChange={(e, newValue) => setTypeSelectField(newValue)}
@@ -60,7 +56,7 @@ const Image = ({
           <Option value="number">Number</Option>
           <Option value="email">Email</Option>
         </Select>
-        <Button onClick={saveInputs}>Save</Button>
+        <Button onClick={saveInputs}>Save</Button> 
       </Box>
     </div>
   );

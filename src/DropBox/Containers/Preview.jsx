@@ -38,7 +38,7 @@ const Preview = () => {
     document.getElementById("drawerButton").style.display = "none";
 
     axios({
-      url: `https://dynamic-form-builder-json-server.onrender.com/elements/${param.id}`,
+      url: `http://localhost:3000/elements/${param.id}`,
       method: "get",
     })
       .then((response) => {
@@ -76,7 +76,7 @@ const Preview = () => {
           if (element.type === "Input") {
             jsx = (
               <>
-                {element.data.map((item, index) => (
+                {element.data.map((item) => (
                   <Inputprevi
                     key={index}
                     name={item.inputFieldName}
@@ -89,9 +89,7 @@ const Preview = () => {
           } else if (element.type === "RadioBox") {
             jsx = (
               <>
-                {/* {element.data.map((item, index) => ( */}
-                <RadioBox data={element.data} />
-                {/* ))} */}
+                <RadioBox data={element.data} key={index} />
               </>
             );
           } else if (element.type === "CheckBox") {

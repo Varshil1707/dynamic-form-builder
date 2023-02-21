@@ -10,11 +10,12 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { Route, Routes, Link } from "react-router-dom";
+import { Route, Routes, Link, useLocation } from "react-router-dom";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import Preview from "../DropBox/Containers/Preview";
 import LeftMenu from "./LeftMenu";
 import DropBox from "./../DropBox/Index";
+import axios from "axios";
 
 const drawerWidth = 240;
 
@@ -110,7 +111,13 @@ const Content = ({ open, handleDrawerClose, theme, setId }) => {
 export default function MiniDrawer() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [id, setId] = React.useState(null);
+  const [id, setId] = React.useState(null); 
+
+
+
+  
+  const location = useLocation()
+  const isPreview = /preview/.test(location.pathname)
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -138,24 +145,15 @@ export default function MiniDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          <Box ml={"auto"} component={Link} to={`/preview/${id}`}>
+          <Box ml={"auto"} component={Link} to={isPreview ?  `/home/${id} ` : `/preview/${id}`}>
             <RemoveRedEyeIcon sx={{ color: "#fff" }} />
           </Box>
         </Toolbar>
       </AppBar>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <Content
-              open={open}
-              handleDrawerClose={handleDrawerClose}
-              theme={theme}
-              setId={setId}
-            />
-          }
-        />
-        <Route path="/preview/:id" element={<Preview />} />
+          <Route path="/home" element={<Content open={open} handleDrawerClose={handleDrawerClose} theme={theme} setId={setId} />} />
+          <Route path="/home/:id" element={<Content open={open} handleDrawerClose={handleDrawerClose} theme={theme} setId={setId} />} />
+          <Route path="/preview/:id" element={<Preview />} />
       </Routes>
     </Box>
   );

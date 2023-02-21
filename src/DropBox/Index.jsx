@@ -7,8 +7,14 @@ import { Image3 } from "./Containers/Image3";
 import Table1 from "./Containers/Table";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import { tableInfo } from "./Containers/Table";
-import { LinearProgress, Typography } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import {
+  IconButton,
+  LinearProgress,
+  Snackbar,
+  Typography,
+} from "@mui/material";
+import { useParams } from "react-router-dom";
 
 const url = window.location.href;
 const urlSplit = url.split("/");
@@ -31,6 +37,8 @@ const Index = ({ setId }) => {
   const [elements, setElements] = useState([]);
   const [childElements, setChildElements] = useState([]);
   const [loader, setLoader] = useState(false);
+  const [elementData, setElementData] = useState([]);
+  const [open, setOpen] = useState(false);
 
   const [inputFieldName, setInputFieldName] = useState("");
   const [label, setLabel] = useState("");
@@ -41,12 +49,17 @@ const Index = ({ setId }) => {
   const [checkBoxFieldValues, setCheckBoxFieldValues] = useState([]);
   const [descriptionValueState, setDescriptionValueState] = useState([]);
 
+  const param = useParams();
+  apiID = param.id;
+  console.log(apiID);
+
   const radioValue = useRef();
   const radioLabel = useRef();
   const checkBoxLabel = useRef();
   const descriptionPlaceholderRef = useRef();
 
   const saveInputs = () => {
+    setOpen(true);
     let dataArray = [];
     setInputs((prev) => {
       dataArray.push(...prev, {
@@ -59,6 +72,7 @@ const Index = ({ setId }) => {
   };
 
   const saveRadioInputs = () => {
+    setOpen(true);
     const radioValueField = radioValue.current.value;
     const radioLabelField = radioLabel.current.value;
 
@@ -74,6 +88,7 @@ const Index = ({ setId }) => {
   };
 
   const saveCheckBox = () => {
+    setOpen(true);
     const checkBoxLabelValue = checkBoxLabel.current.value;
 
     let radioValuesArray = [];
@@ -87,7 +102,7 @@ const Index = ({ setId }) => {
   };
 
   const descriptionPlaceholderHandler = () => {
-    console.log("Butoon Presssed");
+    setOpen(true);
     const descriptionPlaceholderField = descriptionPlaceholderRef.current.value;
 
     let radioValuesArray = [];
@@ -100,7 +115,25 @@ const Index = ({ setId }) => {
     });
   };
 
-  console.log("Line 109", descriptionValueState);
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   const droppedTargetRef = useRef(null);
 
@@ -151,18 +184,21 @@ const Index = ({ setId }) => {
 
     console.log("Line 147", dataElements);
 
-    let axiosCall = { url: "https://dynamic-form-builder-json-server.onrender.com/elements", method: "post" };
-
-    console.log("id----->", apiID);
+    let axiosCall = { url: "http://localhost:3000/elements", method: "post" };
+    if (apiID) {
+      axiosCall = {
+        url: `http://localhost:3000/elements/${apiID}`,
+        method: "put",
+      };
+    }
     axios({ ...axiosCall, contentType: "application/json", data })
       .then((response) => {
         const data = response.data;
-        console.log("response", data);
+        console.log("response", response.data);
         setId(data.id);
         setLoader(false);
       })
       .catch((error) => {
-        setLoader(false);
         console.log("error", error.message);
       });
   };
@@ -226,20 +262,18 @@ const Index = ({ setId }) => {
   };
 
   useEffect(() => {
+    console.log("apiID", apiID);
     if (apiID) {
-      // axios({ url: `http://localhost:3000/elements/${apiID}`, method: "get" })
-      //     .then(response => {
-      //         let dataElements = response.data.dataElements;
-      //         dataElements = dataElements.filter(dataElement => dataElement!=null);
-      //         const elements = dataElements.map(dataElement => dataElement[0]);
-      //         setElements([...elements]);
-      //         const childElements = dataElements.map(dataElement => dataElement[1]);
-      //         setChildElements([...childElements]);
-      //     })
-      //     .catch(error => {
-      //         console.log('error', error.message)
-      //     })
+      axios({ url: `http://localhost:3000/elements/${apiID}`, method: "get" })
+        .then((response) => {
+          console.log(response.data);
+          setElementData(response.data.dataElements);
+        })
+        .catch((error) => {
+          console.log("error", error.message);
+        });
     }
+    console.log(elements);
   }, []);
 
   return (
@@ -259,84 +293,181 @@ const Index = ({ setId }) => {
           <LinearProgress />
         </Box>
       )}
-      
-      <Box
-        minHeight={"700px"}
-        border={1}
-        boxShadow={10}
-        p={3}
-        onDrop={drop} //dragged element dropped on the target
-        ref={droppedTargetRef}
-        onDragOver={dragOver} //when the elementis dragged over the targeted space
-        onDragEnter={dragEnter} //when the element enters the targeted space
-        onDragLeave={dragLeave} // leaves at the drop target
-        id="droppedbox"
-      >
-        {elements.map((element, index) => {
-          let jsx;
-          if (element === "Input") {
-            jsx = (
-              <>
-                <DeleteMe deleteMe={deleteMe} index={index} />
-                <Image
-                  index={index}
-                  setInputField={setInputFieldName}
-                  setPlaceholderFiledName={setLabel}
-                  setTypeSelectField={setTypeSelectField}
-                  saveInputs={saveInputs}
-                />
-              </>
-            );
-          } else if (element === "RadioBox") {
-            jsx = (
-              <>
-                <DeleteMe deleteMe={deleteMe} index={index} />
-                <Comment
-                  index={index}
-                  imgArr={childElements[index]}
-                  saveRadioInputs={saveRadioInputs}
-                  radioValue={radioValue}
-                  radioLabel={radioLabel}
-                />
-              </>
-            );
-          } else if (element === "CheckBox") {
-            jsx = (
-              <>
-                <DeleteMe deleteMe={deleteMe} index={index} />
-                <MultipalText
-                  index={index}
-                  imgArr={childElements[index]}
-                  checkBoxLabel={checkBoxLabel}
-                  saveCheckBox={saveCheckBox}
-                />
-              </>
-            );
-          } else if (element === "TextArea") {
-            jsx = (
-              <>
-                <DeleteMe deleteMe={deleteMe} index={index} />
-                <Image3
-                  index={index}
-                  descriptionPlaceholderRef={descriptionPlaceholderRef}
-                  descriptionPlaceholderHandler={descriptionPlaceholderHandler}
-                />
-              </>
-            );
+      {!apiID ? (
+        <Box
+          minHeight={"700px"}
+          border={1}
+          boxShadow={10}
+          p={3}
+          onDrop={drop} //dragged element dropped on the target
+          ref={droppedTargetRef}
+          onDragOver={dragOver} //when the elementis dragged over the targeted space
+          onDragEnter={dragEnter} //when the element enters the targeted space
+          onDragLeave={dragLeave} // leaves at the drop target
+          id="droppedbox"
+        >
+          {elements.map((element, index) => {
+            let jsx;
+            if (element === "Input") {
+              jsx = (
+                <>
+                  <DeleteMe deleteMe={deleteMe} index={index} />
+                  <Image
+                    index={index}
+                    setInputField={setInputFieldName}
+                    setPlaceholderFiledName={setLabel}
+                    setTypeSelectField={setTypeSelectField}
+                    saveInputs={saveInputs}
+                  />
+                  <Snackbar
+                    open={open}
+                    autoHideDuration={1000}
+                    onClose={handleClose}
+                    message="Added"
+                    action={action}
+                  />
+                </>
+              );
+            } else if (element === "RadioBox") {
+              jsx = (
+                <>
+                  <DeleteMe deleteMe={deleteMe} index={index} />
+                  <Comment
+                    index={index}
+                    imgArr={childElements[index]}
+                    saveRadioInputs={saveRadioInputs}
+                    radioValue={radioValue}
+                    radioLabel={radioLabel}
+                  />
+                  <Snackbar
+                    open={open}
+                    autoHideDuration={1000}
+                    onClose={handleClose}
+                    message="Added"
+                    action={action}
+                  />
+                </>
+              );
+            } else if (element === "CheckBox") {
+              jsx = (
+                <>
+                  <DeleteMe deleteMe={deleteMe} index={index} />
+                  <MultipalText
+                    index={index}
+                    imgArr={childElements[index]}
+                    checkBoxLabel={checkBoxLabel}
+                    saveCheckBox={saveCheckBox}
+                  />
+                  <Snackbar
+                    open={open}
+                    autoHideDuration={1000}
+                    onClose={handleClose}
+                    message="Added"
+                    action={action}
+                  />
+                </>
+              );
+            } else if (element === "TextArea") {
+              jsx = (
+                <>
+                  <DeleteMe deleteMe={deleteMe} index={index} />
+                  <Image3
+                    index={index}
+                    descriptionPlaceholderRef={descriptionPlaceholderRef}
+                    descriptionPlaceholderHandler={
+                      descriptionPlaceholderHandler
+                    }
+                  />
+                  <Snackbar
+                    open={open}
+                    autoHideDuration={1000}
+                    onClose={handleClose}
+                    message="Added"
+                    action={action}
+                  />
+                </>
+              );
+            }
+            return <Box key={index}>{jsx}</Box>;
+          })}
+          {
+            <Button
+              sx={{ display: !!elements.length ? "block" : "none!important" }}
+              variant="contained"
+              id={"completeBtn"}
+              onClick={complete}
+            >
+              Complete
+            </Button>
           }
-          return <Box key={index}>{jsx}</Box>;
-        })}
-        {
-          <Button
-            sx={{ display: !!elements.length ? "block" : "none!important" }}
-            variant="contained"
-            id={"completeBtn"}
-            onClick={complete}
-          >
-            Complete
-          </Button>
-        }
-      </Box>
+        </Box>
+      ) : (
+        <Box
+          minHeight={"700px"}
+          border={1}
+          boxShadow={10}
+          p={3}
+          onDrop={drop} //dragged element dropped on the target
+          ref={droppedTargetRef}
+          onDragOver={dragOver} //when the elementis dragged over the targeted space
+          onDragEnter={dragEnter} //when the element enters the targeted space
+          onDragLeave={dragLeave} // leaves at the drop target
+          id="droppedbox"
+        >
+          {elementData.map((element, index) => {
+            let jsx;
+
+            if (element.type === "Input") {
+              jsx = (
+                <>
+                  {element.data.map((item) => (
+                    <Image
+                      key={index}
+                      name={item.inputFieldName}
+                      placeholder={item.label}
+                      type={item.typeSelectField}
+                    />
+                  ))}
+                </>
+              );
+            } else if (element.type === "RadioBox") {
+              jsx = (
+                <>
+                  <Comment data={element.data} key={index} />
+                </>
+              );
+            } else if (element.type === "CheckBox") {
+              jsx = (
+                <>
+                  {element.data.map((item, index) => (
+                    <Image3
+                      key={index}
+                      value={item.checkBoxLabelValue}
+                      label={item.checkBoxLabelValue}
+                    />
+                  ))}
+                </>
+              );
+            } else if (element.type === "TextArea") {
+              jsx = (
+                <>
+                  {element.data.map((item, index) => (
+                    <MultipalText
+                      key={index}
+                      placeholder={`${item.place_holder}`}
+                    />
+                  ))}
+                </>
+              );
+            }
+            return (
+              <Box key={index} m={2}>
+                {jsx}
+              </Box>
+            );
+          })}
+        </Box>
+      )}
     </>
   );
 };
