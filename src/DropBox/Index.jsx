@@ -264,12 +264,12 @@ const Index = ({ setId }) => {
 
     console.log("Line 147", dataElements);
 
-    // let axiosCall = { url: "https://dynamic-form-builder-json-server.onrender.com/elements", method: "post" };
-    let axiosCall = { url: "http://localhost:3000/elements", method: "post" };
+    let axiosCall = { url: "https://dynamic-form-builder-json-server.onrender.com/elements", method: "post" };
+    // let axiosCall = { url: "http://localhost:3000/elements", method: "post" };
     if (apiID) {
       axiosCall = {
-        url: `http://localhost:3000/elements/${apiID}`,
-        // url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
+        // url: `http://localhost:3000/elements/${apiID}`,
+        url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
         method: "put",
       };
     }
@@ -284,15 +284,6 @@ const Index = ({ setId }) => {
         console.log("error", error.message);
       });
 
-    // axios
-    //   .post("http://localhost:3000/elements", data)
-    //   .then((response) => {
-    //     const data = response.data;
-    //     console.log("response", response.data);
-    //     setId(data.id);
-    //     setLoader(false);
-    //   })
-    //   .catch((err) => console.log(err));
   };
 
   const drop = (ev) => {

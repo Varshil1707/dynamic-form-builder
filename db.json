@@ -1063,6 +1063,59 @@
         }
       ],
       "id": 37
+    },
+    {
+      "dataElements": [
+        {
+          "type": "Input",
+          "data": [
+            {
+              "index": 0,
+              "inputFieldName": "Fullname",
+              "label": "Enter Fullname",
+              "typeSelectField": "text"
+            }
+          ]
+        },
+        {
+          "type": "RadioBox",
+          "data": [
+            {
+              "index": 1,
+              "radioValue": "male",
+              "radioLabel": "Male"
+            },
+            {
+              "index": 2,
+              "radioValue": "female",
+              "radioLabel": "Female"
+            }
+          ]
+        },
+        {
+          "type": "CheckBox",
+          "data": [
+            {
+              "index": 3,
+              "checkBoxLabel": "Ahmedavad"
+            },
+            {
+              "index": 4,
+              "checkBoxLabel": "Surat"
+            }
+          ]
+        },
+        {
+          "type": "TextArea",
+          "data": [
+            {
+              "index": 5,
+              "descriptionPlaceholder": "Tell Me about yourself"
+            }
+          ]
+        }
+      ],
+      "id": 38
     }
   ]
 }

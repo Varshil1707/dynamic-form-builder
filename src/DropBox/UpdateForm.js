@@ -128,17 +128,16 @@ const UpdateForm = ({ setId }) => {
     const existingIndex = checkBoxFieldValues.find(
       (element) => element.index === index
     );
-    if(!checkBoxLabel) {
-        setEmptyFieldMessage("Please Fill All The Fields")
-    }else {
-
+    if (!checkBoxLabel) {
+      setEmptyFieldMessage("Please Fill All The Fields");
+    } else {
       if (!existingIndex) {
         setCheckBoxFieldValues((prev) => {
           radioValuesArray.push(...prev, {
             checkBoxLabel,
           });
           return radioValuesArray;
-        });
+        }); 
       } else {
         const updateCheckboxState = checkBoxFieldValues.map((item) => {
           if (item.index === index) {
@@ -149,7 +148,7 @@ const UpdateForm = ({ setId }) => {
         });
         setCheckBoxFieldValues(updateCheckboxState);
       }
-      setEmptyFieldMessage("Added")
+      setEmptyFieldMessage("Added");
     }
     setOpen(true);
   };
@@ -160,8 +159,8 @@ const UpdateForm = ({ setId }) => {
       (element) => element.index === index
     );
 
-    if(!descriptionPlaceholder) {
-      setEmptyFieldMessage("Please Fill All The Fields")
+    if (!descriptionPlaceholder) {
+      setEmptyFieldMessage("Please Fill All The Fields");
     } else {
       if (!existingIndex) {
         setDescriptionValueState((prev) => {
@@ -180,7 +179,7 @@ const UpdateForm = ({ setId }) => {
         });
         setDescriptionValueState(updatedDescriptionState);
       }
-      setEmptyFieldMessage("Added")
+      setEmptyFieldMessage("Added");
     }
 
     setOpen(true);
@@ -229,7 +228,7 @@ const UpdateForm = ({ setId }) => {
     console.log("complete");
 
     console.log("elements==>", elements);
-
+  
     const uniqueElements = [...new Set(elements)];
     console.log("uniqueElements ====>", uniqueElements);
 
@@ -260,29 +259,7 @@ const UpdateForm = ({ setId }) => {
       dataElements,
     };
 
-    console.log("Line 147", data);
-    let axiosCall = { url: "http://localhost:3000/elements", method: "post" };
-    // let axiosCall = {
-    //   url: "https://dynamic-form-builder-json-server.onrender.com/elements/",
-    //   method: "post",
-    // };
-    if (apiID) {
-      axiosCall = {
-        // url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
-        url: `http://localhost:3000/elements/${apiID}`,
-        method: "put",
-      };
-    }
-    axios({ ...axiosCall, contentType: "application/json", data })
-      .then((response) => {
-        const data = response.data;
-        console.log("response", response.data);
-        setId(data.id);
-        setLoader(false);
-      })
-      .catch((error) => {
-        console.log("error", error.message);
-      });
+    console.log("Line 262", data);
   };
 
   const drop = (ev) => {
@@ -332,15 +309,23 @@ const UpdateForm = ({ setId }) => {
     droppedTargetRef.current.style.backgroundColor = "transparent";
   };
 
-  const deleteMe = (index) => {
+  const deleteMe = (index,index2) => {
+    console.log(index2,index)
+
+
     const newElements = elements.filter(
-      (element, elementIndex) => elementIndex !== index
+      (element, elementIndex) => elementIndex !== index || element[index].data.index !== index2
     );
+
+
+
+
     const newChildElements = childElements.filter(
       (childElement, elementIndex) => elementIndex !== index
     );
     setElements([...newElements]);
     setChildElements([...newChildElements]);
+
   };
 
   useEffect(() => {
@@ -401,14 +386,11 @@ const UpdateForm = ({ setId }) => {
               <>
                 {element.data.map((item, index2) => (
                   <>
-                    <DeleteMe deleteMe={deleteMe} index={index} />
+                    <DeleteMe deleteMe={() => deleteMe(index,index2)}  />
                     <Image
+                      key={index}
                       index={index}
                       index2={index2}
-                      setInputField={setInputFieldName}
-                      setPlaceholderFiledName={setLabel}
-                      setTypeSelectField={setTypeSelectField}
-                      saveInputs={saveInputs}
                       value={item}
                       setElements={setElements}
                     />
@@ -429,6 +411,7 @@ const UpdateForm = ({ setId }) => {
                 <DeleteMe deleteMe={deleteMe} index={index} />
                 <Image
                   index={index}
+                  key={index}
                   setInputField={setInputFieldName}
                   setPlaceholderFiledName={setLabel}
                   setTypeSelectField={setTypeSelectField}
@@ -448,9 +431,10 @@ const UpdateForm = ({ setId }) => {
               <>
                 {element.data.map((item, index2) => (
                   <>
-                    <DeleteMe deleteMe={deleteMe} index={index} />
+                    <DeleteMe deleteMe={()=>deleteMe(index,index2)}  />
                     <Comment
                       index={index}
+                      key={index}
                       index2={index2}
                       saveRadioInputs={saveRadioInputs}
                       radioValue={radioValue}
@@ -475,12 +459,10 @@ const UpdateForm = ({ setId }) => {
                 <DeleteMe deleteMe={deleteMe} index={index} />
                 <Comment
                   index={index}
+                  key={index}
                   saveRadioInputs={saveRadioInputs}
-                  // radioValue={radioValue}
-                  // radioLabel={radioLabel}
                   setRadioValue={setRadioValue}
                   setRadioLabel={setRadioLabel}
-                  // value={item}
                 />
                 <Snackbar
                   open={open}
@@ -498,6 +480,7 @@ const UpdateForm = ({ setId }) => {
                   <>
                     <DeleteMe deleteMe={deleteMe} index={index} />
                     <MultipalText
+                      key={index}
                       index={index}
                       index2={index2}
                       checkBoxLabel={checkBoxLabel}
@@ -522,6 +505,7 @@ const UpdateForm = ({ setId }) => {
                 <DeleteMe deleteMe={deleteMe} index={index} />
                 <MultipalText
                   index={index}
+                  key={index}
                   setCheckBoxLabel={setCheckBoxLabel}
                   saveCheckBox={saveCheckBox}
                 />
@@ -542,6 +526,7 @@ const UpdateForm = ({ setId }) => {
                     <DeleteMe deleteMe={deleteMe} index={index} />
                     <Image3
                       index={index}
+                      key={index}
                       index2={index2}
                       descriptionPlaceholderHandler={
                         descriptionPlaceholderHandler
@@ -566,6 +551,7 @@ const UpdateForm = ({ setId }) => {
                 <DeleteMe deleteMe={deleteMe} index={index} />
                 <Image3
                   index={index}
+                  key={index}
                   setDescriptionPlaceholder={setDescriptionPlaceholder}
                   descriptionPlaceholderHandler={descriptionPlaceholderHandler}
                 />
