@@ -38,7 +38,8 @@ const Preview = () => {
     document.getElementById("drawerButton").style.display = "none";
 
     axios({
-      url: `http://localhost:3000/elements/${param.id}`,
+      url: `https://dynamic-form-builder-json-server.onrender.com/elements/${param.id}`,
+      // url: `http://localhost:3000/elements/${param.id}`,
       method: "get",
     })
       .then((response) => {
@@ -98,8 +99,8 @@ const Preview = () => {
                 {element.data.map((item, index) => (
                   <CheckBox
                     key={index}
-                    value={item.checkBoxLabelValue}
-                    label={item.checkBoxLabelValue}
+                    value={item.checkBoxLabel}
+                    label={item.checkBoxLabel}
                   />
                 ))}
               </>
@@ -108,7 +109,7 @@ const Preview = () => {
             jsx = (
               <>
                 {element.data.map((item, index) => (
-                  <TextArea key={index} placeholder={`${item.place_holder}`} />
+                  <TextArea key={index} placeholder={`${item.descriptionPlaceholder}`} />
                 ))}
               </>
             );

@@ -4,7 +4,6 @@ import Image from "./Containers/Image";
 import Comment from "./Containers/Comment";
 import MultipalText from "./Containers/MultipalText";
 import { Image3 } from "./Containers/Image3";
-import Table1 from "./Containers/Table";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import CloseIcon from "@mui/icons-material/Close";
@@ -33,7 +32,7 @@ const DeleteMe = ({ deleteMe, index }) => {
   );
 };
 
-const Index = ({ setId }) => {
+const UpdateForm = ({ setId }) => {
   const [elements, setElements] = useState([]);
   const [childElements, setChildElements] = useState([]);
   const [loader, setLoader] = useState(false);
@@ -46,9 +45,8 @@ const Index = ({ setId }) => {
   const [radioLabel, setRadioLabel] = useState("");
   const [checkBoxLabel, setCheckBoxLabel] = useState("");
   const [descriptionPlaceholder, setDescriptionPlaceholder] = useState("");
-
+  
   const [inputs, setInputs] = useState([]);
-
   const [radioFieldValues, setRadioFieldValues] = useState([]);
   const [checkBoxFieldValues, setCheckBoxFieldValues] = useState([]);
   const [descriptionValueState, setDescriptionValueState] = useState([]);
@@ -56,136 +54,58 @@ const Index = ({ setId }) => {
   const param = useParams();
   apiID = param.id;
 
-  // const checkBoxLabel = useRef();
-  // const descriptionPlaceholderRef = useRef();
-
-  const saveInputs = (index) => {
+  const saveInputs = () => {
     let dataArray = [];
-    const existingIndex = inputs.find((element) => element.index === index);
-
-    if (!existingIndex) {
-      setInputs((prev) => {
-        dataArray.push(...prev, {
-          index,
-          inputFieldName,
-          label,
-          typeSelectField,
-        });
-        return dataArray;
+    setInputs((prev) => {
+      dataArray.push(...prev, {
+        inputFieldName,
+        label,
+        typeSelectField,
       });
-    } else {
-      console.log(inputs);
-      const updatedState = inputs.map((item) => {
-        if (item.index === index) {
-          item.index = index;
-          item.inputFieldName = inputFieldName;
-          item.label = label;
-        }
-        return item;
-      });
-
-      setInputs(updatedState);
-    }
+      return dataArray;
+    });
 
     setOpen(true);
   };
 
-  // console.log(inputs);
+  console.log(inputs);
 
-  const saveRadioInputs = (index) => {
+  const saveRadioInputs = () => {
     let radioValuesArray = [];
 
-    const existingIndex = radioFieldValues.find(
-      (element) => element.index === index
-    );
-
-    if (!existingIndex) {
-      setRadioFieldValues((prev) => {
-        radioValuesArray.push(...prev, {
-          index,
-          radioValue,
-          radioLabel,
-        });
-        return radioValuesArray;
+    setRadioFieldValues((prev) => {
+      radioValuesArray.push(...prev, {
+        radioValue,
+        radioLabel,
       });
-    } else {
-      const updatedRadioState = radioFieldValues.map((item) => {
-        if (item.index === index) {
-          item.index = index;
-          item.radioValue = radioValue;
-          item.radioLabel = radioLabel;
-        }
-        return item;
-      });
-      setRadioFieldValues(updatedRadioState);
-    }
-
+      return radioValuesArray;
+    });
     setOpen(true);
   };
 
-  console.log(radioFieldValues);
-
-  const saveCheckBox = (index) => {
-    let checkboxValuesArray = [];
-    // const checkBoxLabelValue = checkBoxLabel.current.value;
-    const existingIndex = checkBoxFieldValues.find(
-      (element) => element.index === index
-    );
-    if (!existingIndex) {
-      setCheckBoxFieldValues((prev) => {
-        checkboxValuesArray.push(...prev, {
-          index,
-          checkBoxLabel,
-        });
-        return checkboxValuesArray;
-      });
-    } else {
-      const updateCheckboxState = checkBoxFieldValues.map((item) => {
-        if (item.index === index) {
-          item.index = index;
-          item.checkBoxLabel = checkBoxLabel;
-        }
-        return item;
-      });
-      setCheckBoxFieldValues(updateCheckboxState);
-    }
-
-
-    setOpen(true);
-  };
-
-  // console.log(checkBoxFieldValues);
-
-  const descriptionPlaceholderHandler = (index) => {
+  const saveCheckBox = () => {
     let radioValuesArray = [];
 
-    const existingIndex = descriptionValueState.find(
-      (element) => element.index === index
-    );
-
-    if (!existingIndex) {
-      setDescriptionValueState((prev) => {
-        radioValuesArray.push(...prev, {
-          index,
-          descriptionPlaceholder,
-        });
-        return radioValuesArray;
+    setCheckBoxFieldValues((prev) => {
+      radioValuesArray.push(...prev, {
+        checkBoxLabel,
       });
-    } else {
-      const updatedDescriptionState = descriptionValueState.map((item) => {
-        if (item.index === index) {
-          item.index = index;
-          item.descriptionPlaceholder = descriptionPlaceholder;
-        }
-        return item;
-      });
-      setDescriptionValueState(updatedDescriptionState);
-    }
-
+      return radioValuesArray;
+    });
     setOpen(true);
   };
 
-  // console.log(descriptionValueState)
+  const descriptionPlaceholderHandler = () => {
+    let radioValuesArray = [];
+
+    setDescriptionValueState((prev) => {
+      radioValuesArray.push(...prev, {
+        descriptionPlaceholder,
+      });
+      return radioValuesArray;
+    });
+    setOpen(true);
+  };
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -228,25 +148,32 @@ const Index = ({ setId }) => {
 
   const complete = () => {
     console.log("complete");
-    console.log(inputFieldName, label, typeSelectField);
+
     console.log("elements==>", elements);
-    setLoader(true);
 
     const uniqueElements = [...new Set(elements)];
-    console.log(uniqueElements);
+    console.log("uniqueElements ====>", uniqueElements);
 
     const dataElements = uniqueElements.map((element) => {
       let newElement;
       if (element === "Input") {
         newElement = { type: element, data: inputs };
+      } else if (element.type === "Input") {
+        newElement = { type: element.type, data: element.data };
       } else if (element === "RadioBox") {
         newElement = { type: element, data: radioFieldValues };
+      } else if (element.type === "RadioBox") {
+        newElement = { type: element.type, data: element.data };
       } else if (element === "CheckBox") {
         newElement = { type: element, data: checkBoxFieldValues };
+      } else if (element.type === "CheckBox") {
+        newElement = { type: element.type, data: element.data };
       } else if (element === "TextArea") {
         newElement = { type: element, data: descriptionValueState };
+      } else if (element.type === "TextArea") {
+        newElement = { type: element.type, data: element.data };
       }
-      console.log(newElement);
+
       return newElement;
     });
 
@@ -254,14 +181,13 @@ const Index = ({ setId }) => {
       dataElements,
     };
 
-    console.log("Line 147", dataElements);
-
-    let axiosCall = { url: "https://dynamic-form-builder-json-server.onrender.com/elements", method: "post" };
+    console.log("Line 147", data);
     // let axiosCall = { url: "http://localhost:3000/elements", method: "post" };
+    let axiosCall = { url: "https://dynamic-form-builder-json-server.onrender.com/elements/", method: "post" };
     if (apiID) {
       axiosCall = {
-        // url: `http://localhost:3000/elements/${apiID}`,
         url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
+        // url: `http://localhost:3000/elements/${apiID}`,
         method: "put",
       };
     }
@@ -275,16 +201,6 @@ const Index = ({ setId }) => {
       .catch((error) => {
         console.log("error", error.message);
       });
-
-    // axios
-    //   .post("http://localhost:3000/elements", data)
-    //   .then((response) => {
-    //     const data = response.data;
-    //     console.log("response", response.data);
-    //     setId(data.id);
-    //     setLoader(false);
-    //   })
-    //   .catch((err) => console.log(err));
   };
 
   const drop = (ev) => {
@@ -345,20 +261,27 @@ const Index = ({ setId }) => {
     setChildElements([...newChildElements]);
   };
 
-  // useEffect(() => {
-  //   console.log("apiID", apiID);
-  //   if (apiID) {
-  //     axios({ url: `http://localhost:3000/elements/${apiID}`, method: "get" })
-  //       .then((response) => {
-  //         console.log(response.data);
-  //         setElementData(response.data.dataElements);
-  //       })
-  //       .catch((error) => {
-  //         console.log("error", error.message);
-  //       });
-  //   }
-  //   console.log(elements);
-  // }, []);
+  useEffect(() => {
+    setLoader(true);
+    console.log("apiID", apiID);
+    if (apiID) {
+      axios({ url: `http://localhost:3000/elements/${apiID}`, method: "get" })
+        .then((response) => {
+          console.log(response.data.dataElements);
+          const res = response.data.dataElements.map((item) => item);
+          setElements(res);
+
+          setLoader(false);
+        })
+        .catch((error) => {
+          console.log("error", error.message);
+          setLoader(false);
+        });
+    }
+  }, []);
+  console.log(elements);
+
+  // const inputsData = elements.filter((item) => item.type === "Input")
 
   return (
     <>
@@ -390,7 +313,34 @@ const Index = ({ setId }) => {
       >
         {elements.map((element, index) => {
           let jsx;
-          if (element === "Input") {
+          if (element.type === "Input") {
+            jsx = (
+              <>
+                {element.data.map((item, index2) => (
+                  <>
+                    <DeleteMe deleteMe={deleteMe} index={index} />
+                    <Image
+                      index={index}
+                      index2={index2}
+                      setInputField={setInputFieldName}
+                      setPlaceholderFiledName={setLabel}
+                      setTypeSelectField={setTypeSelectField}
+                      saveInputs={saveInputs}
+                      value={item}
+                      setElements={setElements}
+                    />
+                    <Snackbar
+                      open={open}
+                      autoHideDuration={1000}
+                      onClose={handleClose}
+                      message="Added"
+                      action={action}
+                    />
+                  </>
+                ))}
+              </>
+            );
+          } else if (element === "Input") {
             jsx = (
               <>
                 <DeleteMe deleteMe={deleteMe} index={index} />
@@ -400,7 +350,6 @@ const Index = ({ setId }) => {
                   setPlaceholderFiledName={setLabel}
                   setTypeSelectField={setTypeSelectField}
                   saveInputs={saveInputs}
-                  inputFieldName={inputFieldName}
                 />
                 <Snackbar
                   open={open}
@@ -409,6 +358,32 @@ const Index = ({ setId }) => {
                   message="Added"
                   action={action}
                 />
+              </>
+            );
+          } else if (element.type === "RadioBox") {
+            jsx = (
+              <>
+                {element.data.map((item, index2) => (
+                  <>
+                    <DeleteMe deleteMe={deleteMe} index={index} />
+                    <Comment
+                      index={index}
+                      index2={index2}
+                      saveRadioInputs={saveRadioInputs}
+                      radioValue={radioValue}
+                      radioLabel={radioLabel}
+                      value={item}
+                      setElements={setElements}
+                    />
+                    <Snackbar
+                      open={open}
+                      autoHideDuration={1000}
+                      onClose={handleClose}
+                      message="Added"
+                      action={action}
+                    />
+                  </>
+                ))}
               </>
             );
           } else if (element === "RadioBox") {
@@ -417,10 +392,12 @@ const Index = ({ setId }) => {
                 <DeleteMe deleteMe={deleteMe} index={index} />
                 <Comment
                   index={index}
-                  imgArr={childElements[index]}
                   saveRadioInputs={saveRadioInputs}
+                  // radioValue={radioValue}
+                  // radioLabel={radioLabel}
                   setRadioValue={setRadioValue}
                   setRadioLabel={setRadioLabel}
+                  // value={item}
                 />
                 <Snackbar
                   open={open}
@@ -431,14 +408,37 @@ const Index = ({ setId }) => {
                 />
               </>
             );
+          } else if (element.type === "CheckBox") {
+            jsx = (
+              <>
+                {element.data.map((item, index2) => (
+                  <>
+                    <DeleteMe deleteMe={deleteMe} index={index} />
+                    <MultipalText
+                      index={index}
+                      index2={index2}
+                      checkBoxLabel={checkBoxLabel}
+                      saveCheckBox={saveCheckBox}
+                      value={item}
+                      setElements={setElements}
+                    />
+                    <Snackbar
+                      open={open}
+                      autoHideDuration={1000}
+                      onClose={handleClose}
+                      message="Added"
+                      action={action}
+                    />
+                  </>
+                ))}
+              </>
+            );
           } else if (element === "CheckBox") {
             jsx = (
               <>
                 <DeleteMe deleteMe={deleteMe} index={index} />
                 <MultipalText
                   index={index}
-                  imgArr={childElements[index]}
-                  checkBoxLabel={checkBoxLabel}
                   setCheckBoxLabel={setCheckBoxLabel}
                   saveCheckBox={saveCheckBox}
                 />
@@ -449,6 +449,32 @@ const Index = ({ setId }) => {
                   message="Added"
                   action={action}
                 />
+              </>
+            );
+          } else if (element.type === "TextArea") {
+            jsx = (
+              <>
+                {element.data.map((item, index2) => (
+                  <>
+                    <DeleteMe deleteMe={deleteMe} index={index} />
+                    <Image3
+                      index={index}
+                      index2={index2}
+                      descriptionPlaceholderHandler={
+                        descriptionPlaceholderHandler
+                      }
+                      value={item}
+                      setElements={setElements}
+                    />
+                    <Snackbar
+                      open={open}
+                      autoHideDuration={1000}
+                      onClose={handleClose}
+                      message="Added"
+                      action={action}
+                    />
+                  </>
+                ))}
               </>
             );
           } else if (element === "TextArea") {
@@ -487,4 +513,4 @@ const Index = ({ setId }) => {
   );
 };
 
-export default Index;
+export default UpdateForm;

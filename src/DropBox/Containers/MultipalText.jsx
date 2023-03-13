@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import { Button, TextareaAutosize, TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 
-const MultipalText = ({ index, checkBoxLabel,saveCheckBox }) => {
+const MultipalText = ({ index, setCheckBoxLabel, saveCheckBox, value, setElements, index2 }) => {
   return (
     <Box
       component="form"
-      // id={`image-container-${index}`}
-      // className="image-container"
       border={1}
       p={2}
       mb={2}
@@ -24,14 +22,16 @@ const MultipalText = ({ index, checkBoxLabel,saveCheckBox }) => {
         id="outlined-basic"
         placeholder="Enter label for Select option"
         variant="outlined"
-        inputRef={checkBoxLabel}
+        // onChange={(e) => setCheckBoxLabel(e.target.value)}
+        onChange={value ? (e)=>setElements((prev) => {
+          const newValue = [...prev]
+          newValue[index].data[index2].checkBoxLabel = e.target.value
+          return newValue
+        }) : (e) => setCheckBoxLabel(e.target.value)}
+        value={value && value.checkBoxLabel}
       />
 
-      <Button
-        onClick={saveCheckBox}
-      >
-        Confirm
-      </Button>
+       {!value && <Button onClick={() => saveCheckBox(index)}>Confirm</Button>}
     </Box>
   );
 };

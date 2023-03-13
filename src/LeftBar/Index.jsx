@@ -15,6 +15,7 @@ import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import Preview from "../DropBox/Containers/Preview";
 import LeftMenu from "./LeftMenu";
 import DropBox from "./../DropBox/Index";
+import UpdateForm from "../DropBox/UpdateForm"
 import axios from "axios";
 
 const drawerWidth = 240;
@@ -108,16 +109,36 @@ const Content = ({ open, handleDrawerClose, theme, setId }) => {
   );
 };
 
+const Test = ({ open, handleDrawerClose, theme, setId }) => {
+  return (
+    <>
+      <Drawer variant="permanent" open={open}>
+        <DrawerHeader>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === "rtl" ? (
+              <ChevronRightIcon />
+            ) : (
+              <ChevronLeftIcon />
+            )}
+          </IconButton>
+        </DrawerHeader>
+        <Divider />
+        <LeftMenu open={LeftMenu} />
+      </Drawer>
+      <Box component="main" mt={2} sx={{ flexGrow: 1, p: 3 }}>
+        <UpdateForm setId={setId} />
+      </Box>
+    </>
+  );
+};
+
 export default function MiniDrawer() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [id, setId] = React.useState(null); 
+  const [id, setId] = React.useState(null);
 
-
-
-  
-  const location = useLocation()
-  const isPreview = /preview/.test(location.pathname)
+  const location = useLocation();
+  const isPreview = /preview/.test(location.pathname);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -145,15 +166,39 @@ export default function MiniDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          <Box ml={"auto"} component={Link} to={isPreview ?  `/home/${id} ` : `/preview/${id}`}>
+          <Box
+            ml={"auto"}
+            component={Link}
+            to={isPreview ? `/home/${id} ` : `/preview/${id}`}
+          >
             <RemoveRedEyeIcon sx={{ color: "#fff" }} />
           </Box>
         </Toolbar>
       </AppBar>
       <Routes>
-          <Route path="/home" element={<Content open={open} handleDrawerClose={handleDrawerClose} theme={theme} setId={setId} />} />
-          <Route path="/home/:id" element={<Content open={open} handleDrawerClose={handleDrawerClose} theme={theme} setId={setId} />} />
-          <Route path="/preview/:id" element={<Preview />} />
+        <Route
+          path="/"
+          element={
+            <Content
+              open={open}
+              handleDrawerClose={handleDrawerClose}
+              theme={theme}
+              setId={setId}
+            />
+          }
+        />
+        <Route
+          path="/home/:id"
+          element={
+            <Test
+              open={open}
+              handleDrawerClose={handleDrawerClose}
+              theme={theme}
+              setId={setId}
+            />
+          }
+        />
+        <Route path="/preview/:id" element={<Preview />} />
       </Routes>
     </Box>
   );
