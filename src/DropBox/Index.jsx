@@ -38,6 +38,7 @@ const Index = ({ setId }) => {
   const [childElements, setChildElements] = useState([]);
   const [loader, setLoader] = useState(false);
   const [open, setOpen] = useState(false);
+  const [emptyFieldMessage, setEmptyFieldMessage] = useState("");
 
   const [inputFieldName, setInputFieldName] = useState("");
   const [label, setLabel] = useState("");
@@ -56,41 +57,40 @@ const Index = ({ setId }) => {
   const param = useParams();
   apiID = param.id;
 
-  // const checkBoxLabel = useRef();
-  // const descriptionPlaceholderRef = useRef();
-
   const saveInputs = (index) => {
     let dataArray = [];
     const existingIndex = inputs.find((element) => element.index === index);
 
-    if (!existingIndex) {
-      setInputs((prev) => {
-        dataArray.push(...prev, {
-          index,
-          inputFieldName,
-          label,
-          typeSelectField,
-        });
-        return dataArray;
-      });
+    if (!inputFieldName || !label || !typeSelectField) {
+      setEmptyFieldMessage("Please Fill All The Values");
     } else {
-      console.log(inputs);
-      const updatedState = inputs.map((item) => {
-        if (item.index === index) {
-          item.index = index;
-          item.inputFieldName = inputFieldName;
-          item.label = label;
-        }
-        return item;
-      });
+      if (!existingIndex) {
+        setInputs((prev) => {
+          dataArray.push(...prev, {
+            index,
+            inputFieldName,
+            label,
+            typeSelectField,
+          });
+          return dataArray;
+        });
+      } else {
+        const updatedState = inputs.map((item) => {
+          if (item.index === index) {
+            item.index = index;
+            item.inputFieldName = inputFieldName;
+            item.label = label;
+          }
+          return item;
+        });
 
-      setInputs(updatedState);
+        setInputs(updatedState);
+      }
+      setEmptyFieldMessage("Added");
     }
 
     setOpen(true);
   };
-
-  // console.log(inputs);
 
   const saveRadioInputs = (index) => {
     let radioValuesArray = [];
@@ -99,31 +99,34 @@ const Index = ({ setId }) => {
       (element) => element.index === index
     );
 
-    if (!existingIndex) {
-      setRadioFieldValues((prev) => {
-        radioValuesArray.push(...prev, {
-          index,
-          radioValue,
-          radioLabel,
-        });
-        return radioValuesArray;
-      });
+    if (!radioValue || !radioLabel) {
+      setEmptyFieldMessage("Please Fill All The Values");
     } else {
-      const updatedRadioState = radioFieldValues.map((item) => {
-        if (item.index === index) {
-          item.index = index;
-          item.radioValue = radioValue;
-          item.radioLabel = radioLabel;
-        }
-        return item;
-      });
-      setRadioFieldValues(updatedRadioState);
+      if (!existingIndex) {
+        setRadioFieldValues((prev) => {
+          radioValuesArray.push(...prev, {
+            index,
+            radioValue,
+            radioLabel,
+          });
+          return radioValuesArray;
+        });
+      } else {
+        const updatedRadioState = radioFieldValues.map((item) => {
+          if (item.index === index) {
+            item.index = index;
+            item.radioValue = radioValue;
+            item.radioLabel = radioLabel;
+          }
+          return item;
+        });
+        setRadioFieldValues(updatedRadioState);
+      }
+      setEmptyFieldMessage("Added");
     }
 
     setOpen(true);
   };
-
-  console.log(radioFieldValues);
 
   const saveCheckBox = (index) => {
     let checkboxValuesArray = [];
@@ -132,30 +135,32 @@ const Index = ({ setId }) => {
       (element) => element.index === index
     );
 
-    if (!existingIndex) {
-      setCheckBoxFieldValues((prev) => {
-        checkboxValuesArray.push(...prev, {
-          index,
-          checkBoxLabel,
-        });
-        return checkboxValuesArray;
-      });
+    if (!checkBoxLabel) {
+      setEmptyFieldMessage("Please Fill All The Values");
     } else {
-      const updateCheckboxState = checkBoxFieldValues.map((item) => {
-        if (item.index === index) {
-          item.index = index;
-          item.checkBoxLabel = checkBoxLabel;
-        }
-        return item;
-      });
-      setCheckBoxFieldValues(updateCheckboxState);
+      if (!existingIndex) {
+        setCheckBoxFieldValues((prev) => {
+          checkboxValuesArray.push(...prev, {
+            index,
+            checkBoxLabel,
+          });
+          return checkboxValuesArray;
+        });
+      } else {
+        const updateCheckboxState = checkBoxFieldValues.map((item) => {
+          if (item.index === index) {
+            item.index = index;
+            item.checkBoxLabel = checkBoxLabel;
+          }
+          return item;
+        });
+        setCheckBoxFieldValues(updateCheckboxState);
+      }
+      setEmptyFieldMessage("Added");
     }
-
 
     setOpen(true);
   };
-
-  // console.log(checkBoxFieldValues);
 
   const descriptionPlaceholderHandler = (index) => {
     let radioValuesArray = [];
@@ -164,29 +169,32 @@ const Index = ({ setId }) => {
       (element) => element.index === index
     );
 
-    if (!existingIndex) {
-      setDescriptionValueState((prev) => {
-        radioValuesArray.push(...prev, {
-          index,
-          descriptionPlaceholder,
-        });
-        return radioValuesArray;
-      });
+    if (!descriptionPlaceholder) {
+      setEmptyFieldMessage("Please Fill All The Values");
     } else {
-      const updatedDescriptionState = descriptionValueState.map((item) => {
-        if (item.index === index) {
-          item.index = index;
-          item.descriptionPlaceholder = descriptionPlaceholder;
-        }
-        return item;
-      });
-      setDescriptionValueState(updatedDescriptionState);
+      if (!existingIndex) {
+        setDescriptionValueState((prev) => {
+          radioValuesArray.push(...prev, {
+            index,
+            descriptionPlaceholder,
+          });
+          return radioValuesArray;
+        });
+      } else {
+        const updatedDescriptionState = descriptionValueState.map((item) => {
+          if (item.index === index) {
+            item.index = index;
+            item.descriptionPlaceholder = descriptionPlaceholder;
+          }
+          return item;
+        });
+        setDescriptionValueState(updatedDescriptionState);
+      }
+      setEmptyFieldMessage("Added");
     }
 
     setOpen(true);
   };
-
-  // console.log(descriptionValueState)
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -229,7 +237,6 @@ const Index = ({ setId }) => {
 
   const complete = () => {
     console.log("complete");
-    console.log(inputFieldName, label, typeSelectField);
     console.log("elements==>", elements);
     setLoader(true);
 
@@ -257,12 +264,12 @@ const Index = ({ setId }) => {
 
     console.log("Line 147", dataElements);
 
-    let axiosCall = { url: "https://dynamic-form-builder-json-server.onrender.com/elements", method: "post" };
-    // let axiosCall = { url: "http://localhost:3000/elements", method: "post" };
+    // let axiosCall = { url: "https://dynamic-form-builder-json-server.onrender.com/elements", method: "post" };
+    let axiosCall = { url: "http://localhost:3000/elements", method: "post" };
     if (apiID) {
       axiosCall = {
-        // url: `http://localhost:3000/elements/${apiID}`,
-        url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
+        url: `http://localhost:3000/elements/${apiID}`,
+        // url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
         method: "put",
       };
     }
@@ -346,21 +353,6 @@ const Index = ({ setId }) => {
     setChildElements([...newChildElements]);
   };
 
-  // useEffect(() => {
-  //   console.log("apiID", apiID);
-  //   if (apiID) {
-  //     axios({ url: `http://localhost:3000/elements/${apiID}`, method: "get" })
-  //       .then((response) => {
-  //         console.log(response.data);
-  //         setElementData(response.data.dataElements);
-  //       })
-  //       .catch((error) => {
-  //         console.log("error", error.message);
-  //       });
-  //   }
-  //   console.log(elements);
-  // }, []);
-
   return (
     <>
       <Typography
@@ -407,7 +399,7 @@ const Index = ({ setId }) => {
                   open={open}
                   autoHideDuration={1000}
                   onClose={handleClose}
-                  message="Added"
+                  message={emptyFieldMessage}
                   action={action}
                 />
               </>
@@ -427,7 +419,7 @@ const Index = ({ setId }) => {
                   open={open}
                   autoHideDuration={1000}
                   onClose={handleClose}
-                  message="Added"
+                  message={emptyFieldMessage}
                   action={action}
                 />
               </>
@@ -447,7 +439,7 @@ const Index = ({ setId }) => {
                   open={open}
                   autoHideDuration={1000}
                   onClose={handleClose}
-                  message="Added"
+                  message={emptyFieldMessage}
                   action={action}
                 />
               </>
@@ -465,7 +457,7 @@ const Index = ({ setId }) => {
                   open={open}
                   autoHideDuration={1000}
                   onClose={handleClose}
-                  message="Added"
+                  message={emptyFieldMessage}
                   action={action}
                 />
               </>

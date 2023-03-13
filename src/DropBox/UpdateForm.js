@@ -37,6 +37,7 @@ const UpdateForm = ({ setId }) => {
   const [childElements, setChildElements] = useState([]);
   const [loader, setLoader] = useState(false);
   const [open, setOpen] = useState(false);
+  const [emptyFieldMessage, setEmptyFieldMessage] = useState("");
 
   const [inputFieldName, setInputFieldName] = useState("");
   const [label, setLabel] = useState("");
@@ -57,17 +58,20 @@ const UpdateForm = ({ setId }) => {
   const saveInputs = (index) => {
     let dataArray = [];
     const existingIndex = inputs.find((element) => element.index === index);
-    if (!existingIndex) {
-      setInputs((prev) => {
-        dataArray.push(...prev, {
-          inputFieldName,
-          label,
-          typeSelectField,
-        });
-        return dataArray;
-      });
+
+    if (!inputFieldName || !label || !typeSelectField) {
+      setEmptyFieldMessage("Please Fill ALl The Fields");
     } else {
-      {
+      if (!existingIndex) {
+        setInputs((prev) => {
+          dataArray.push(...prev, {
+            inputFieldName,
+            label,
+            typeSelectField,
+          });
+          return dataArray;
+        });
+      } else {
         const updatedState = inputs.map((item) => {
           if (item.index === index) {
             item.index = index;
@@ -79,12 +83,11 @@ const UpdateForm = ({ setId }) => {
 
         setInputs(updatedState);
       }
+      setEmptyFieldMessage("Added");
     }
 
     setOpen(true);
   };
-
-  console.log(inputs);
 
   const saveRadioInputs = (index) => {
     let radioValuesArray = [];
@@ -92,25 +95,30 @@ const UpdateForm = ({ setId }) => {
       (element) => element.index === index
     );
 
-    if (!existingIndex) {
-      setRadioFieldValues((prev) => {
-        radioValuesArray.push(...prev, {
-          index,
-          radioValue,
-          radioLabel,
-        });
-        return radioValuesArray;
-      });
+    if (!radioValue || !radioLabel) {
+      setEmptyFieldMessage("Please Fill ALl the Fields");
     } else {
-      const updatedRadioState = radioFieldValues.map((item) => {
-        if (item.index === index) {
-          item.index = index;
-          item.radioValue = radioValue;
-          item.radioLabel = radioLabel;
-        }
-        return item;
-      });
-      setRadioFieldValues(updatedRadioState);
+      if (!existingIndex) {
+        setRadioFieldValues((prev) => {
+          radioValuesArray.push(...prev, {
+            index,
+            radioValue,
+            radioLabel,
+          });
+          return radioValuesArray;
+        });
+      } else {
+        const updatedRadioState = radioFieldValues.map((item) => {
+          if (item.index === index) {
+            item.index = index;
+            item.radioValue = radioValue;
+            item.radioLabel = radioLabel;
+          }
+          return item;
+        });
+        setRadioFieldValues(updatedRadioState);
+      }
+      setEmptyFieldMessage("Added");
     }
     setOpen(true);
   };
@@ -120,22 +128,28 @@ const UpdateForm = ({ setId }) => {
     const existingIndex = checkBoxFieldValues.find(
       (element) => element.index === index
     );
-    if (!existingIndex) {
-      setCheckBoxFieldValues((prev) => {
-        radioValuesArray.push(...prev, {
-          checkBoxLabel,
+    if(!checkBoxLabel) {
+        setEmptyFieldMessage("Please Fill All The Fields")
+    }else {
+
+      if (!existingIndex) {
+        setCheckBoxFieldValues((prev) => {
+          radioValuesArray.push(...prev, {
+            checkBoxLabel,
+          });
+          return radioValuesArray;
         });
-        return radioValuesArray;
-      });
-    } else {
-      const updateCheckboxState = checkBoxFieldValues.map((item) => {
-        if (item.index === index) {
-          item.index = index;
-          item.checkBoxLabel = checkBoxLabel;
-        }
-        return item;
-      });
-      setCheckBoxFieldValues(updateCheckboxState);
+      } else {
+        const updateCheckboxState = checkBoxFieldValues.map((item) => {
+          if (item.index === index) {
+            item.index = index;
+            item.checkBoxLabel = checkBoxLabel;
+          }
+          return item;
+        });
+        setCheckBoxFieldValues(updateCheckboxState);
+      }
+      setEmptyFieldMessage("Added")
     }
     setOpen(true);
   };
@@ -146,23 +160,29 @@ const UpdateForm = ({ setId }) => {
       (element) => element.index === index
     );
 
-    if (!existingIndex) {
-      setDescriptionValueState((prev) => {
-        radioValuesArray.push(...prev, {
-          descriptionPlaceholder,
-        });
-        return radioValuesArray;
-      });
+    if(!descriptionPlaceholder) {
+      setEmptyFieldMessage("Please Fill All The Fields")
     } else {
-      const updatedDescriptionState = descriptionValueState.map((item) => {
-        if (item.index === index) {
-          item.index = index;
-          item.descriptionPlaceholder = descriptionPlaceholder;
-        }
-        return item;
-      });
-      setDescriptionValueState(updatedDescriptionState);
+      if (!existingIndex) {
+        setDescriptionValueState((prev) => {
+          radioValuesArray.push(...prev, {
+            descriptionPlaceholder,
+          });
+          return radioValuesArray;
+        });
+      } else {
+        const updatedDescriptionState = descriptionValueState.map((item) => {
+          if (item.index === index) {
+            item.index = index;
+            item.descriptionPlaceholder = descriptionPlaceholder;
+          }
+          return item;
+        });
+        setDescriptionValueState(updatedDescriptionState);
+      }
+      setEmptyFieldMessage("Added")
     }
+
     setOpen(true);
   };
 
@@ -241,15 +261,15 @@ const UpdateForm = ({ setId }) => {
     };
 
     console.log("Line 147", data);
-    // let axiosCall = { url: "http://localhost:3000/elements", method: "post" };
-    let axiosCall = {
-      url: "https://dynamic-form-builder-json-server.onrender.com/elements/",
-      method: "post",
-    };
+    let axiosCall = { url: "http://localhost:3000/elements", method: "post" };
+    // let axiosCall = {
+    //   url: "https://dynamic-form-builder-json-server.onrender.com/elements/",
+    //   method: "post",
+    // };
     if (apiID) {
       axiosCall = {
-        url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
-        // url: `http://localhost:3000/elements/${apiID}`,
+        // url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
+        url: `http://localhost:3000/elements/${apiID}`,
         method: "put",
       };
     }
@@ -327,8 +347,8 @@ const UpdateForm = ({ setId }) => {
     setLoader(true);
     console.log("apiID", apiID);
     if (apiID) {
-      // axios({ url: `http://localhost:3000/elements/${apiID}`, method: "get" })
-      axios({ url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`, method: "get" })
+      axios({ url: `http://localhost:3000/elements/${apiID}`, method: "get" })
+        // axios({ url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`, method: "get" })
         .then((response) => {
           console.log(response.data.dataElements);
           const res = response.data.dataElements.map((item) => item);
@@ -418,7 +438,7 @@ const UpdateForm = ({ setId }) => {
                   open={open}
                   autoHideDuration={1000}
                   onClose={handleClose}
-                  message="Added"
+                  message={emptyFieldMessage}
                   action={action}
                 />
               </>
@@ -466,7 +486,7 @@ const UpdateForm = ({ setId }) => {
                   open={open}
                   autoHideDuration={1000}
                   onClose={handleClose}
-                  message="Added"
+                  message={emptyFieldMessage}
                   action={action}
                 />
               </>
@@ -509,7 +529,7 @@ const UpdateForm = ({ setId }) => {
                   open={open}
                   autoHideDuration={1000}
                   onClose={handleClose}
-                  message="Added"
+                  message={emptyFieldMessage}
                   action={action}
                 />
               </>
@@ -553,7 +573,7 @@ const UpdateForm = ({ setId }) => {
                   open={open}
                   autoHideDuration={1000}
                   onClose={handleClose}
-                  message="Added"
+                  message={emptyFieldMessage}
                   action={action}
                 />
               </>
