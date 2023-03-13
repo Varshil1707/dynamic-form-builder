@@ -45,7 +45,7 @@ const UpdateForm = ({ setId }) => {
   const [radioLabel, setRadioLabel] = useState("");
   const [checkBoxLabel, setCheckBoxLabel] = useState("");
   const [descriptionPlaceholder, setDescriptionPlaceholder] = useState("");
-  
+
   const [inputs, setInputs] = useState([]);
   const [radioFieldValues, setRadioFieldValues] = useState([]);
   const [checkBoxFieldValues, setCheckBoxFieldValues] = useState([]);
@@ -54,56 +54,115 @@ const UpdateForm = ({ setId }) => {
   const param = useParams();
   apiID = param.id;
 
-  const saveInputs = () => {
+  const saveInputs = (index) => {
     let dataArray = [];
-    setInputs((prev) => {
-      dataArray.push(...prev, {
-        inputFieldName,
-        label,
-        typeSelectField,
+    const existingIndex = inputs.find((element) => element.index === index);
+    if (!existingIndex) {
+      setInputs((prev) => {
+        dataArray.push(...prev, {
+          inputFieldName,
+          label,
+          typeSelectField,
+        });
+        return dataArray;
       });
-      return dataArray;
-    });
+    } else {
+      {
+        const updatedState = inputs.map((item) => {
+          if (item.index === index) {
+            item.index = index;
+            item.inputFieldName = inputFieldName;
+            item.label = label;
+          }
+          return item;
+        });
+
+        setInputs(updatedState);
+      }
+    }
 
     setOpen(true);
   };
 
   console.log(inputs);
 
-  const saveRadioInputs = () => {
+  const saveRadioInputs = (index) => {
     let radioValuesArray = [];
+    const existingIndex = radioFieldValues.find(
+      (element) => element.index === index
+    );
 
-    setRadioFieldValues((prev) => {
-      radioValuesArray.push(...prev, {
-        radioValue,
-        radioLabel,
+    if (!existingIndex) {
+      setRadioFieldValues((prev) => {
+        radioValuesArray.push(...prev, {
+          index,
+          radioValue,
+          radioLabel,
+        });
+        return radioValuesArray;
       });
-      return radioValuesArray;
-    });
+    } else {
+      const updatedRadioState = radioFieldValues.map((item) => {
+        if (item.index === index) {
+          item.index = index;
+          item.radioValue = radioValue;
+          item.radioLabel = radioLabel;
+        }
+        return item;
+      });
+      setRadioFieldValues(updatedRadioState);
+    }
     setOpen(true);
   };
 
-  const saveCheckBox = () => {
+  const saveCheckBox = (index) => {
     let radioValuesArray = [];
-
-    setCheckBoxFieldValues((prev) => {
-      radioValuesArray.push(...prev, {
-        checkBoxLabel,
+    const existingIndex = checkBoxFieldValues.find(
+      (element) => element.index === index
+    );
+    if (!existingIndex) {
+      setCheckBoxFieldValues((prev) => {
+        radioValuesArray.push(...prev, {
+          checkBoxLabel,
+        });
+        return radioValuesArray;
       });
-      return radioValuesArray;
-    });
+    } else {
+      const updateCheckboxState = checkBoxFieldValues.map((item) => {
+        if (item.index === index) {
+          item.index = index;
+          item.checkBoxLabel = checkBoxLabel;
+        }
+        return item;
+      });
+      setCheckBoxFieldValues(updateCheckboxState);
+    }
     setOpen(true);
   };
 
-  const descriptionPlaceholderHandler = () => {
+  const descriptionPlaceholderHandler = (index) => {
     let radioValuesArray = [];
+    const existingIndex = descriptionValueState.find(
+      (element) => element.index === index
+    );
 
-    setDescriptionValueState((prev) => {
-      radioValuesArray.push(...prev, {
-        descriptionPlaceholder,
+    if (!existingIndex) {
+      setDescriptionValueState((prev) => {
+        radioValuesArray.push(...prev, {
+          descriptionPlaceholder,
+        });
+        return radioValuesArray;
       });
-      return radioValuesArray;
-    });
+    } else {
+      const updatedDescriptionState = descriptionValueState.map((item) => {
+        if (item.index === index) {
+          item.index = index;
+          item.descriptionPlaceholder = descriptionPlaceholder;
+        }
+        return item;
+      });
+      setDescriptionValueState(updatedDescriptionState);
+    }
     setOpen(true);
   };
 
@@ -183,7 +242,10 @@ const UpdateForm = ({ setId }) => {
 
     console.log("Line 147", data);
     // let axiosCall = { url: "http://localhost:3000/elements", method: "post" };
-    let axiosCall = { url: "https://dynamic-form-builder-json-server.onrender.com/elements/", method: "post" };
+    let axiosCall = {
+      url: "https://dynamic-form-builder-json-server.onrender.com/elements/",
+      method: "post",
+    };
     if (apiID) {
       axiosCall = {
         url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
@@ -241,12 +303,12 @@ const UpdateForm = ({ setId }) => {
   };
 
   const dragEnter = (ev) => {
-    console.log("dragEnter");
+    // console.log("dragEnter");
     droppedTargetRef.current.style.backgroundColor = "rgba(0,0,0,.1)";
   };
 
   const dragLeave = (ev) => {
-    console.log("dragLeave");
+    // console.log("dragLeave");
     droppedTargetRef.current.style.backgroundColor = "transparent";
   };
 

@@ -127,10 +127,11 @@ const Index = ({ setId }) => {
 
   const saveCheckBox = (index) => {
     let checkboxValuesArray = [];
-    // const checkBoxLabelValue = checkBoxLabel.current.value;
+
     const existingIndex = checkBoxFieldValues.find(
       (element) => element.index === index
     );
+
     if (!existingIndex) {
       setCheckBoxFieldValues((prev) => {
         checkboxValuesArray.push(...prev, {

@@ -12,10 +12,11 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Route, Routes, Link, useLocation } from "react-router-dom";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import EditIcon from "@mui/icons-material/Edit";
 import Preview from "../DropBox/Containers/Preview";
 import LeftMenu from "./LeftMenu";
 import DropBox from "./../DropBox/Index";
-import UpdateForm from "../DropBox/UpdateForm"
+import UpdateForm from "../DropBox/UpdateForm";
 import axios from "axios";
 
 const drawerWidth = 240;
@@ -166,12 +167,17 @@ export default function MiniDrawer() {
           >
             <MenuIcon />
           </IconButton>
+
           <Box
             ml={"auto"}
             component={Link}
             to={isPreview ? `/home/${id} ` : `/preview/${id}`}
           >
-            <RemoveRedEyeIcon sx={{ color: "#fff" }} />
+            {!isPreview ? (
+              <RemoveRedEyeIcon sx={{ color: "#fff" }} />
+            ) : (
+              <EditIcon sx={{ color: "#fff" }} />
+            )}
           </Box>
         </Toolbar>
       </AppBar>
