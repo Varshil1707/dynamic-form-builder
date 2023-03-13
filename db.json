@@ -908,6 +908,108 @@
         }
       ],
       "id": 34
+    },
+    {
+      "dataElements": [
+        {
+          "type": "Input",
+          "data": [
+            {
+              "index": 0,
+              "inputFieldName": "Surname",
+              "label": "Enter Your Surname",
+              "typeSelectField": "number"
+            }
+          ]
+        },
+        {
+          "type": "RadioBox",
+          "data": [
+            {
+              "index": 1,
+              "radioValue": "male",
+              "radioLabel": "Male"
+            },
+            {
+              "index": 2,
+              "radioValue": "female",
+              "radioLabel": "Female"
+            }
+          ]
+        },
+        {
+          "type": "CheckBox",
+          "data": [
+            {
+              "index": 3,
+              "checkBoxLabel": "abs"
+            },
+            {
+              "index": 4,
+              "checkBoxLabel": "bbb"
+            }
+          ]
+        },
+        {
+          "type": "TextArea",
+          "data": [
+            {
+              "index": 5,
+              "descriptionPlaceholder": "asdfhj"
+            }
+          ]
+        }
+      ],
+      "id": 35
+    },
+    {
+      "dataElements": [
+        {
+          "type": "Input",
+          "data": [
+            {
+              "index": 0,
+              "inputFieldName": "Fullname",
+              "label": "Enter Fullname",
+              "typeSelectField": "text"
+            }
+          ]
+        },
+        {
+          "type": "RadioBox",
+          "data": [
+            {
+              "index": 1,
+              "radioValue": "male",
+              "radioLabel": "Male"
+            },
+            {
+              "index": 2,
+              "radioValue": "female",
+              "radioLabel": "Female"
+            }
+          ]
+        },
+        {
+          "type": "CheckBox",
+          "data": [
+            {
+              "index": 3,
+              "checkBoxLabel": "Ahmedavad"
+            }
+          ]
+        },
+        {
+          "type": "TextArea",
+          "data": [
+            {
+              "index": 4,
+              "descriptionPlaceholder": "Tell Me about yourself"
+            }
+          ]
+        }
+      ],
+      "id": 36
     }
   ]
 }
