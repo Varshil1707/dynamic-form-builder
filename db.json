@@ -1116,6 +1116,110 @@
         }
       ],
       "id": 38
+    },
+    {
+      "dataElements": [
+        {
+          "type": "Input",
+          "data": [
+            {
+              "index": 0,
+              "inputFieldName": "Surname",
+              "label": "World",
+              "typeSelectField": "text"
+            }
+          ]
+        },
+        {
+          "type": "RadioBox",
+          "data": [
+            {
+              "index": 1,
+              "radioValue": "Surat",
+              "radioLabel": "Hello"
+            }
+          ]
+        }
+      ],
+      "id": 39
+    },
+    {
+      "dataElements": [
+        {
+          "type": "Input",
+          "data": [
+            {
+              "innerIndex": 0,
+              "inputFieldName": "Surname",
+              "label": "World",
+              "typeSelectField": "text"
+            },
+            {
+              "innerIndex": 1,
+              "inputFieldName": "Fullname",
+              "label": "World",
+              "typeSelectField": "text"
+            },
+            {
+              "innerIndex": 1,
+              "inputFieldName": "Fullname",
+              "label": "aaas",
+              "typeSelectField": "text"
+            }
+          ]
+        }
+      ],
+      "id": 40
+    },
+    {
+      "dataElements": [
+        {
+          "type": "Input",
+          "data": [
+            {
+              "innerIndex": 0,
+              "inputFieldName": "Surname",
+              "label": "World",
+              "typeSelectField": "text"
+            },
+            {
+              "innerIndex": 1,
+              "inputFieldName": "ldnvkmnb",
+              "label": ",zmxcnvjnv",
+              "typeSelectField": "text"
+            }
+          ]
+        }
+      ],
+      "id": 41
+    },
+    {
+      "dataElements": [
+        {
+          "type": "Input",
+          "data": [
+            {
+              "innerIndex": 0,
+              "inputFieldName": "Fullname",
+              "label": "World",
+              "typeSelectField": "text"
+            },
+            {
+              "innerIndex": 1,
+              "inputFieldName": "Surname",
+              "label": "aaas",
+              "typeSelectField": "text"
+            },
+            {
+              "innerIndex": 2,
+              "inputFieldName": "Fullname5",
+              "label": "ddd",
+              "typeSelectField": "text"
+            }
+          ]
+        }
+      ],
+      "id": 42
     }
   ]
 }

@@ -1,9 +1,9 @@
 import React, { useRef, useState, useEffect } from "react";
 import Box from "@mui/material/Box";
-import Image from "./Containers/Image";
+import Image from "./Containers/Input";
 import Comment from "./Containers/Comment";
-import MultipalText from "./Containers/MultipalText";
-import { Image3 } from "./Containers/Image3";
+import MultipalText from "./Containers/CheckBox";
+import { Image3 } from "./Containers/Description";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import CloseIcon from "@mui/icons-material/Close";
@@ -137,7 +137,7 @@ const UpdateForm = ({ setId }) => {
             checkBoxLabel,
           });
           return radioValuesArray;
-        }); 
+        });
       } else {
         const updateCheckboxState = checkBoxFieldValues.map((item) => {
           if (item.index === index) {
@@ -228,7 +228,7 @@ const UpdateForm = ({ setId }) => {
     console.log("complete");
 
     console.log("elements==>", elements);
-  
+
     const uniqueElements = [...new Set(elements)];
     console.log("uniqueElements ====>", uniqueElements);
 
@@ -260,6 +260,26 @@ const UpdateForm = ({ setId }) => {
     };
 
     console.log("Line 262", data);
+
+    // let axiosCall = { url: "https://dynamic-form-builder-json-server.onrender.com/elements", method: "post" };
+    let axiosCall = { url: "http://localhost:3000/elements", method: "post" };
+    if (apiID) {
+      axiosCall = {
+        url: `http://localhost:3000/elements/${apiID}`,
+        // url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
+        method: "put",
+      };
+    }
+    axios({ ...axiosCall, contentType: "application/json", data })
+      .then((response) => {
+        const data = response.data;
+        console.log("response", response.data);
+        setId(data.id);
+        setLoader(false);
+      })
+      .catch((error) => {
+        console.log("error", error.message);
+      });
   };
 
   const drop = (ev) => {
@@ -309,23 +329,33 @@ const UpdateForm = ({ setId }) => {
     droppedTargetRef.current.style.backgroundColor = "transparent";
   };
 
-  const deleteMe = (index,index2) => {
-    console.log(index2,index)
+  const deleteMe = (index, index2) => {
+
+    console.log(index, index2);
+
+  //   let newElements;
+  //   console.log(elements);
+
+  //   if (index2 || index2 === 0) {
+  //     console.log("If Condition");
+
+  //     newElements = elements.filter((element, elementIndex) => {
+  //       return elementIndex === index
+  //     }).map((item) => {return {type : item.type, data : item.data.filter((element) => element.innerIndex !== index2)} });
+
+  //     console.log(newElements)
 
 
-    const newElements = elements.filter(
-      (element, elementIndex) => elementIndex !== index || element[index].data.index !== index2
-    );
+  //  } else {
+  //     console.log("Else Condition");
+  //     newElements = elements.filter(
+  //       (element, elementIndex) => elementIndex !== index
+  //     );
+  //   }
 
+  //   setElements([...newElements]);
 
-
-
-    const newChildElements = childElements.filter(
-      (childElement, elementIndex) => elementIndex !== index
-    );
-    setElements([...newElements]);
-    setChildElements([...newChildElements]);
-
+  
   };
 
   useEffect(() => {
@@ -335,7 +365,7 @@ const UpdateForm = ({ setId }) => {
       axios({ url: `http://localhost:3000/elements/${apiID}`, method: "get" })
         // axios({ url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`, method: "get" })
         .then((response) => {
-          console.log(response.data.dataElements);
+          // console.log(response.data.dataElements);
           const res = response.data.dataElements.map((item) => item);
           setElements(res);
 
@@ -347,7 +377,7 @@ const UpdateForm = ({ setId }) => {
         });
     }
   }, []);
-  console.log(elements);
+  // console.log(elements);
 
   // const inputsData = elements.filter((item) => item.type === "Input")
 
@@ -386,7 +416,7 @@ const UpdateForm = ({ setId }) => {
               <>
                 {element.data.map((item, index2) => (
                   <>
-                    <DeleteMe deleteMe={() => deleteMe(index,index2)}  />
+                    <DeleteMe deleteMe={() => deleteMe(index, index2)} />
                     <Image
                       key={index}
                       index={index}
@@ -431,7 +461,7 @@ const UpdateForm = ({ setId }) => {
               <>
                 {element.data.map((item, index2) => (
                   <>
-                    <DeleteMe deleteMe={()=>deleteMe(index,index2)}  />
+                    <DeleteMe deleteMe={() => deleteMe(index, index2)} />
                     <Comment
                       index={index}
                       key={index}
@@ -478,7 +508,7 @@ const UpdateForm = ({ setId }) => {
               <>
                 {element.data.map((item, index2) => (
                   <>
-                    <DeleteMe deleteMe={deleteMe} index={index} />
+                    <DeleteMe deleteMe={() => deleteMe(index, index2)} />
                     <MultipalText
                       key={index}
                       index={index}
@@ -523,7 +553,7 @@ const UpdateForm = ({ setId }) => {
               <>
                 {element.data.map((item, index2) => (
                   <>
-                    <DeleteMe deleteMe={deleteMe} index={index} />
+                    <DeleteMe deleteMe={() => deleteMe(index, index2)} />
                     <Image3
                       index={index}
                       key={index}

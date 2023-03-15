@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import { Button, selectClasses, TextField } from "@mui/material";
 import { KeyboardArrowDown } from "@mui/icons-material";
 import { Option, Select } from "@mui/joy";
+import{ uid} from "uid/single"
 
 const Image = ({
   index,
@@ -14,6 +15,12 @@ const Image = ({
   setElements,
   index2,
 }) => {
+
+let innerIndex
+for(let i = 0 ; i <= index;i++) {
+  innerIndex = i
+}
+
   return (
     <div>
       <Box
@@ -96,7 +103,7 @@ const Image = ({
           <Option value="number">Number</Option>
           <Option value="email">Email</Option>
         </Select>
-       {!value && <Button onClick={() => saveInputs(index)}>Save</Button>}
+       {!value && <Button onClick={() => saveInputs(innerIndex,index)}>Save</Button>}
       </Box>
     </div>
   );

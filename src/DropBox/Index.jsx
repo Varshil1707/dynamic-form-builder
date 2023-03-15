@@ -1,9 +1,9 @@
 import React, { useRef, useState, useEffect } from "react";
 import Box from "@mui/material/Box";
-import Image from "./Containers/Image";
+import Image from "./Containers/Input";
 import Comment from "./Containers/Comment";
-import MultipalText from "./Containers/MultipalText";
-import { Image3 } from "./Containers/Image3";
+import MultipalText from "./Containers/CheckBox";
+import { Image3 } from "./Containers/Description";
 import Table1 from "./Containers/Table";
 import Button from "@mui/material/Button";
 import axios from "axios";
@@ -57,7 +57,7 @@ const Index = ({ setId }) => {
   const param = useParams();
   apiID = param.id;
 
-  const saveInputs = (index) => {
+  const saveInputs = (innerIndex,index) => {
     let dataArray = [];
     const existingIndex = inputs.find((element) => element.index === index);
 
@@ -67,7 +67,7 @@ const Index = ({ setId }) => {
       if (!existingIndex) {
         setInputs((prev) => {
           dataArray.push(...prev, {
-            index,
+            innerIndex,
             inputFieldName,
             label,
             typeSelectField,
@@ -91,6 +91,7 @@ const Index = ({ setId }) => {
 
     setOpen(true);
   };
+
 
   const saveRadioInputs = (index) => {
     let radioValuesArray = [];
@@ -264,12 +265,12 @@ const Index = ({ setId }) => {
 
     console.log("Line 147", dataElements);
 
-    let axiosCall = { url: "https://dynamic-form-builder-json-server.onrender.com/elements", method: "post" };
-    // let axiosCall = { url: "http://localhost:3000/elements", method: "post" };
+    // let axiosCall = { url: "https://dynamic-form-builder-json-server.onrender.com/elements", method: "post" };
+    let axiosCall = { url: "http://localhost:3000/elements", method: "post" };
     if (apiID) {
       axiosCall = {
-        // url: `http://localhost:3000/elements/${apiID}`,
-        url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
+        url: `http://localhost:3000/elements/${apiID}`,
+        // url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
         method: "put",
       };
     }

@@ -6,18 +6,13 @@ import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
-import { Image3 } from "./Image3";
 import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import Image from "./Image";
-import Comment from "./Comment";
-import MultipalText from "./MultipalText";
-import Table1 from "./Table";
-import Inputprevi from "./PreviewComponents/Inputpreview";
+import Inputpreview from './PreviewComponents/Inputpreview'
 import RadioBox from "./PreviewComponents/RadioBox";
-import CheckBox from "./PreviewComponents/Checkbox";
+import CheckBox from "./PreviewComponents/CheckboxPreview";
 import TextArea from "./PreviewComponents/TextArea";
 import { LinearProgress } from "@mui/material";
 //import Footer from '../../LeftBar/Footer'
@@ -38,8 +33,8 @@ const Preview = () => {
     document.getElementById("drawerButton").style.display = "none";
 
     axios({
-      url: `https://dynamic-form-builder-json-server.onrender.com/elements/${param.id}`,
-      // url: `http://localhost:3000/elements/${param.id}`,
+      // url: `https://dynamic-form-builder-json-server.onrender.com/elements/${param.id}`,
+      url: `http://localhost:3000/elements/${param.id}`,
       method: "get",
     })
       .then((response) => {
@@ -78,7 +73,7 @@ const Preview = () => {
             jsx = (
               <>
                 {element.data.map((item) => (
-                  <Inputprevi
+                  <Inputpreview
                     key={index}
                     name={item.inputFieldName}
                     placeholder={item.label}
