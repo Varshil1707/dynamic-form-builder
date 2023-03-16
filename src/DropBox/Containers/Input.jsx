@@ -48,7 +48,6 @@ for(let i = 0 ; i <= index;i++) {
               ? (e) =>
                   setElements((prev) => {
                     const newArray = [...prev];
-                    console.log(newArray[index].data[index2].inputFieldName);
                     newArray[index].data[index2].inputFieldName =
                       e.target.value;
 

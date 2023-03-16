@@ -261,12 +261,12 @@ const UpdateForm = ({ setId }) => {
 
     console.log("Line 262", data);
 
-    // let axiosCall = { url: "https://dynamic-form-builder-json-server.onrender.com/elements", method: "post" };
-    let axiosCall = { url: "http://localhost:3000/elements", method: "post" };
+    let axiosCall = { url: "https://dynamic-form-builder-json-server.onrender.com/elements", method: "post" };
+    // let axiosCall = { url: "http://localhost:3000/elements", method: "post" };
     if (apiID) {
       axiosCall = {
-        url: `http://localhost:3000/elements/${apiID}`,
-        // url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
+        // url: `http://localhost:3000/elements/${apiID}`,
+        url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
         method: "put",
       };
     }
@@ -330,40 +330,54 @@ const UpdateForm = ({ setId }) => {
   };
 
   const deleteMe = (index, index2) => {
-
     console.log(index, index2);
 
-  //   let newElements;
-  //   console.log(elements);
+    let newElements;
+    console.log(elements);
 
-  //   if (index2 || index2 === 0) {
-  //     console.log("If Condition");
+    const innerIndexValue = elements
+      .filter((element, elementIndex) => {
+        return elementIndex === index;
+      })
+      .map((item) => item.data.find((i) => i.innerIndex === index2));
+    console.log(innerIndexValue[0].innerIndex);
 
-  //     newElements = elements.filter((element, elementIndex) => {
-  //       return elementIndex === index
-  //     }).map((item) => {return {type : item.type, data : item.data.filter((element) => element.innerIndex !== index2)} });
+    if (index2 || index2 === 0) {
+      console.log("If Condition");
 
-  //     console.log(newElements)
+      newElements = elements
+        .filter((element, elementIndex) => {
+          return elementIndex === index;
+        })
+        .map((item) => {
+          console.log(item.data.length)
+          return {
+              type: item.type,
+              data: item.data.filter(
+                (element) => element.innerIndex !== innerIndexValue[0].innerIndex
+              ),
+            };
+       
+        });
 
+      console.log(newElements);
+    } else {
+      console.log("Else Condition");
+      newElements = elements.filter(
+        (element, elementIndex) => elementIndex !== index
+      );
+    }
 
-  //  } else {
-  //     console.log("Else Condition");
-  //     newElements = elements.filter(
-  //       (element, elementIndex) => elementIndex !== index
-  //     );
-  //   }
-
-  //   setElements([...newElements]);
-
-  
+    setElements([...newElements]);
   };
+
 
   useEffect(() => {
     setLoader(true);
     console.log("apiID", apiID);
     if (apiID) {
-      axios({ url: `http://localhost:3000/elements/${apiID}`, method: "get" })
-        // axios({ url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`, method: "get" })
+      // axios({ url: `http://localhost:3000/elements/${apiID}`, method: "get" })
+        axios({ url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`, method: "get" })
         .then((response) => {
           // console.log(response.data.dataElements);
           const res = response.data.dataElements.map((item) => item);
@@ -416,7 +430,9 @@ const UpdateForm = ({ setId }) => {
               <>
                 {element.data.map((item, index2) => (
                   <>
-                    <DeleteMe deleteMe={() => deleteMe(index, index2)} />
+                    <DeleteMe
+                      deleteMe={() => deleteMe(index, item.innerIndex)}
+                    />
                     <Image
                       key={index}
                       index={index}

@@ -1201,19 +1201,19 @@
             {
               "innerIndex": 0,
               "inputFieldName": "Fullname",
-              "label": "World",
+              "label": "Enter Fullname",
               "typeSelectField": "text"
             },
             {
               "innerIndex": 1,
               "inputFieldName": "Surname",
-              "label": "aaas",
+              "label": "Enter Surname",
               "typeSelectField": "text"
             },
             {
               "innerIndex": 2,
-              "inputFieldName": "Fullname5",
-              "label": "ddd",
+              "inputFieldName": "Firstname",
+              "label": "Enter Firstname",
               "typeSelectField": "text"
             }
           ]
