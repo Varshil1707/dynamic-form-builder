@@ -9,12 +9,11 @@ export default function RadioButtonsGroup({ data }) {
   console.log(data);
   return (
     <FormControl>
-      <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
       <RadioGroup aria-labelledby="demo-radio-buttons-group-label">
         {data.map((item) => (
           <FormControlLabel
             value={item.radioValue}
-            control={<Radio  />}
+            control={<Radio />}
             label={item.radioLabel}
           />
         ))}

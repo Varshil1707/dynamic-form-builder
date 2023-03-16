@@ -1405,6 +1405,54 @@
         }
       ],
       "id": 46
+    },
+    {
+      "dataElements": [
+        {
+          "type": "Input",
+          "data": [
+            {
+              "innerIndex": 0,
+              "inputFieldName": "zxcfvxf",
+              "label": "123",
+              "typeSelectField": "text"
+            }
+          ]
+        },
+        {
+          "type": "RadioBox",
+          "data": [
+            {
+              "index": 1,
+              "radioValue": "ddddd",
+              "radioLabel": "fefe"
+            }
+          ]
+        }
+      ],
+      "id": 47
+    },
+    {
+      "dataElements": [
+        {
+          "type": "Input",
+          "data": []
+        },
+        {
+          "type": "RadioBox",
+          "data": []
+        }
+      ],
+      "id": 48
+    },
+    {
+      "dataElements": [
+        {
+          "type": "Input",
+          "data": []
+        }
+      ],
+      "id": 49
     }
   ]
 }

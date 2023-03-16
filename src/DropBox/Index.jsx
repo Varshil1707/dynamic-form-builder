@@ -239,12 +239,13 @@ const Index = ({ setId }) => {
   const complete = () => {
     console.log("complete");
     console.log("elements==>", elements);
-    setLoader(true);
+    // setLoader(true);
 
     const uniqueElements = [...new Set(elements)];
     console.log(uniqueElements);
 
-    const dataElements = uniqueElements.map((element) => {
+
+        const dataElements = uniqueElements.map((element) => {
       let newElement;
       if (element === "Input") {
         newElement = { type: element, data: inputs };
@@ -262,6 +263,7 @@ const Index = ({ setId }) => {
     const data = {
       dataElements,
     };
+
 
     console.log("Line 147", dataElements);
 
@@ -284,7 +286,6 @@ const Index = ({ setId }) => {
       .catch((error) => {
         console.log("error", error.message);
       });
-
   };
 
   const drop = (ev) => {

@@ -52,6 +52,7 @@ const UpdateForm = ({ setId }) => {
   const [checkBoxFieldValues, setCheckBoxFieldValues] = useState([]);
   const [descriptionValueState, setDescriptionValueState] = useState([]);
 
+
   const param = useParams();
   apiID = param.id;
 
@@ -336,16 +337,16 @@ const UpdateForm = ({ setId }) => {
 
     console.log(elements);
 
-    const innerIndexValue = elements
+  
+
+    if (index2 || index2 === 0) {
+      console.log("If Condition");
+      const innerIndexValue = elements
       .filter((element, elementIndex) => {
         return elementIndex === index;
       })
       .map((item) => item.data.find((i) => i.innerIndex === index2));
-    console.log(innerIndexValue, innerIndexValue[0].innerIndex);
-
-    if (index2 || index2 === 0) {
-      console.log("If Condition");
-
+      console.log(innerIndexValue, innerIndexValue[0].innerIndex);
       // newElements = elements
       //   .filter((element, elementIndex) => {
       //     return elementIndex === index;
@@ -390,8 +391,8 @@ const UpdateForm = ({ setId }) => {
     setLoader(true);
     console.log("apiID", apiID);
     if (apiID) {
-      // axios({ url: `http://localhost:3000/elements/${apiID}`, method: "get" })
-        axios({ url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`, method: "get" })
+      axios({ url: `http://localhost:3000/elements/${apiID}`, method: "get" })
+        // axios({ url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`, method: "get" })
         .then((response) => {
           // console.log(response.data.dataElements);
           const res = response.data.dataElements.map((item) => item);
