@@ -265,8 +265,8 @@ const UpdateForm = ({ setId }) => {
     // let axiosCall = { url: "http://localhost:3000/elements", method: "post" };
     if (apiID) {
       axiosCall = {
-        url: `http://localhost:3000/elements/${apiID}`,
-        // url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
+        // url: `http://localhost:3000/elements/${apiID}`,
+        url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
         method: "put",
       };
     }
