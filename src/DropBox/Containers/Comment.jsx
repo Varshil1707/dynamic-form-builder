@@ -3,6 +3,10 @@ import { Box } from "@mui/system";
 import React from "react";
 
 const Comment = ({ setRadioValue, setRadioLabel, saveRadioInputs, value, index,setElements,index2 }) => {
+  let innerIndex
+for(let i = 0 ; i <= index;i++) {
+  innerIndex = i
+}
   return (
     <div>
       <Box
@@ -46,7 +50,7 @@ const Comment = ({ setRadioValue, setRadioLabel, saveRadioInputs, value, index,s
           value={value && value.radioLabel}
         />
 
-        {!value && <Button onClick={() => saveRadioInputs(index)}>Confirm</Button>}
+        {!value && <Button onClick={() => saveRadioInputs(innerIndex,index)}>Confirm</Button>}
       </Box>
     </div>
   );

@@ -93,7 +93,7 @@ const Index = ({ setId }) => {
   };
 
 
-  const saveRadioInputs = (index) => {
+  const saveRadioInputs = (innerIndex,index) => {
     let radioValuesArray = [];
 
     const existingIndex = radioFieldValues.find(
@@ -106,7 +106,7 @@ const Index = ({ setId }) => {
       if (!existingIndex) {
         setRadioFieldValues((prev) => {
           radioValuesArray.push(...prev, {
-            index,
+            innerIndex,
             radioValue,
             radioLabel,
           });
@@ -129,7 +129,7 @@ const Index = ({ setId }) => {
     setOpen(true);
   };
 
-  const saveCheckBox = (index) => {
+  const saveCheckBox = (innerIndex,index) => {
     let checkboxValuesArray = [];
 
     const existingIndex = checkBoxFieldValues.find(
@@ -142,7 +142,7 @@ const Index = ({ setId }) => {
       if (!existingIndex) {
         setCheckBoxFieldValues((prev) => {
           checkboxValuesArray.push(...prev, {
-            index,
+            innerIndex,
             checkBoxLabel,
           });
           return checkboxValuesArray;
@@ -163,7 +163,7 @@ const Index = ({ setId }) => {
     setOpen(true);
   };
 
-  const descriptionPlaceholderHandler = (index) => {
+  const descriptionPlaceholderHandler = (innerIndex,index) => {
     let radioValuesArray = [];
 
     const existingIndex = descriptionValueState.find(
@@ -176,7 +176,7 @@ const Index = ({ setId }) => {
       if (!existingIndex) {
         setDescriptionValueState((prev) => {
           radioValuesArray.push(...prev, {
-            index,
+            innerIndex,
             descriptionPlaceholder,
           });
           return radioValuesArray;

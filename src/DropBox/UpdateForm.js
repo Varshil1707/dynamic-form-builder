@@ -265,8 +265,8 @@ const UpdateForm = ({ setId }) => {
     // let axiosCall = { url: "http://localhost:3000/elements", method: "post" };
     if (apiID) {
       axiosCall = {
-        // url: `http://localhost:3000/elements/${apiID}`,
-        url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
+        url: `http://localhost:3000/elements/${apiID}`,
+        // url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
         method: "put",
       };
     }
@@ -333,6 +333,7 @@ const UpdateForm = ({ setId }) => {
     console.log(index, index2);
 
     let newElements;
+
     console.log(elements);
 
     const innerIndexValue = elements
@@ -340,25 +341,39 @@ const UpdateForm = ({ setId }) => {
         return elementIndex === index;
       })
       .map((item) => item.data.find((i) => i.innerIndex === index2));
-    console.log(innerIndexValue[0].innerIndex);
+    console.log(innerIndexValue, innerIndexValue[0].innerIndex);
 
     if (index2 || index2 === 0) {
       console.log("If Condition");
 
-      newElements = elements
-        .filter((element, elementIndex) => {
-          return elementIndex === index;
-        })
-        .map((item) => {
-          console.log(item.data.length)
-          return {
-              type: item.type,
-              data: item.data.filter(
-                (element) => element.innerIndex !== innerIndexValue[0].innerIndex
-              ),
-            };
-       
-        });
+      // newElements = elements
+      //   .filter((element, elementIndex) => {
+      //     return elementIndex === index;
+      //   })
+      //   .map((item) => {
+
+      //       return {
+      //           type: item.type,
+      //           data: item.data.filter(
+      //             (element) => element.innerIndex !== innerIndexValue[0].innerIndex
+      //           ),
+      //         };
+      //     });
+
+      // [type : "Input", data : [{...},{...}]]
+      // [type : "radio", data : [{...}]]
+      // [type : "Check", data : [{...}]]
+
+      newElements = elements.map((element, elementIndex) => {
+        
+        let newData;
+        if (elementIndex === index) {
+          console.log(element)
+          newData = element.data.filter((item) => item.innerIndex !== innerIndexValue[0].innerIndex);
+          return { type : element.type, data : newData}
+        }
+        return element
+      });
 
       console.log(newElements);
     } else {
@@ -370,7 +385,6 @@ const UpdateForm = ({ setId }) => {
 
     setElements([...newElements]);
   };
-
 
   useEffect(() => {
     setLoader(true);
@@ -391,7 +405,7 @@ const UpdateForm = ({ setId }) => {
         });
     }
   }, []);
-  // console.log(elements);
+  console.log(elements);
 
   // const inputsData = elements.filter((item) => item.type === "Input")
 
@@ -477,7 +491,9 @@ const UpdateForm = ({ setId }) => {
               <>
                 {element.data.map((item, index2) => (
                   <>
-                    <DeleteMe deleteMe={() => deleteMe(index, index2)} />
+                    <DeleteMe
+                      deleteMe={() => deleteMe(index, item.innerIndex)}
+                    />
                     <Comment
                       index={index}
                       key={index}
@@ -524,7 +540,9 @@ const UpdateForm = ({ setId }) => {
               <>
                 {element.data.map((item, index2) => (
                   <>
-                    <DeleteMe deleteMe={() => deleteMe(index, index2)} />
+                    <DeleteMe
+                      deleteMe={() => deleteMe(index, item.innerIndex)}
+                    />
                     <MultipalText
                       key={index}
                       index={index}
@@ -569,7 +587,9 @@ const UpdateForm = ({ setId }) => {
               <>
                 {element.data.map((item, index2) => (
                   <>
-                    <DeleteMe deleteMe={() => deleteMe(index, index2)} />
+                    <DeleteMe
+                      deleteMe={() => deleteMe(index, item.innerIndex)}
+                    />
                     <Image3
                       index={index}
                       key={index}

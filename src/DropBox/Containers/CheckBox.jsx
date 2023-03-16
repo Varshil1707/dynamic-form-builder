@@ -3,6 +3,11 @@ import Box from "@mui/material/Box";
 import { Button, TextField } from "@mui/material";
 
 const MultipalText = ({ index, setCheckBoxLabel, saveCheckBox, value, setElements, index2 }) => {
+
+  let innerIndex
+for(let i = 0 ; i <= index;i++) {
+  innerIndex = i
+}
   return (
     <Box
       component="form"
@@ -31,7 +36,7 @@ const MultipalText = ({ index, setCheckBoxLabel, saveCheckBox, value, setElement
         value={value && value.checkBoxLabel}
       />
 
-       {!value && <Button onClick={() => saveCheckBox(index)}>Confirm</Button>}
+       {!value && <Button onClick={() => saveCheckBox(innerIndex,index)}>Confirm</Button>}
     </Box>
   );
 };

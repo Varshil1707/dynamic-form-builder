@@ -1220,6 +1220,191 @@
         }
       ],
       "id": 42
+    },
+    {
+      "dataElements": [
+        {
+          "type": "Input",
+          "data": [
+            {
+              "innerIndex": 0,
+              "inputFieldName": "Fullname",
+              "label": "Enter Fullname",
+              "typeSelectField": "text"
+            }
+          ]
+        },
+        {
+          "type": "RadioBox",
+          "data": [
+            {
+              "index": 1,
+              "radioValue": "male",
+              "radioLabel": "male"
+            },
+            {
+              "index": 2,
+              "radioValue": "female",
+              "radioLabel": "female"
+            }
+          ]
+        },
+        {
+          "type": "CheckBox",
+          "data": [
+            {
+              "index": 3,
+              "checkBoxLabel": "Surat"
+            },
+            {
+              "index": 4,
+              "checkBoxLabel": "Ahmedavad"
+            }
+          ]
+        },
+        {
+          "type": "TextArea",
+          "data": [
+            {
+              "index": 5,
+              "descriptionPlaceholder": "Tell Me About Yourself"
+            }
+          ]
+        }
+      ],
+      "id": 43
+    },
+    {
+      "dataElements": [
+        {
+          "type": "Input",
+          "data": [
+            {
+              "innerIndex": 0,
+              "inputFieldName": "Firstname",
+              "label": "Enter Firstname",
+              "typeSelectField": "text"
+            },
+            {
+              "innerIndex": 1,
+              "inputFieldName": "Surname",
+              "label": "Enter Surname",
+              "typeSelectField": "text"
+            }
+          ]
+        },
+        {
+          "type": "RadioBox",
+          "data": [
+            {
+              "index": 2,
+              "radioValue": "male",
+              "radioLabel": "male"
+            },
+            {
+              "index": 3,
+              "radioValue": "female",
+              "radioLabel": "female"
+            },
+            {
+              "index": 4,
+              "radioValue": "others",
+              "radioLabel": "others"
+            }
+          ]
+        },
+        {
+          "type": "TextArea",
+          "data": [
+            {
+              "index": 5,
+              "descriptionPlaceholder": "Tell Me about yourself"
+            }
+          ]
+        }
+      ],
+      "id": 44
+    },
+    {
+      "dataElements": [
+        {
+          "type": "Input",
+          "data": [
+            {
+              "innerIndex": 0,
+              "inputFieldName": "Firstname",
+              "label": "Enter Firstname",
+              "typeSelectField": "text"
+            }
+          ]
+        },
+        {
+          "type": "RadioBox",
+          "data": [
+            {
+              "innerIndex": 1,
+              "radioValue": "male",
+              "radioLabel": "male"
+            },
+            {
+              "innerIndex": 2,
+              "radioValue": "female",
+              "radioLabel": "female"
+            }
+          ]
+        }
+      ],
+      "id": 45
+    },
+    {
+      "dataElements": [
+        {
+          "type": "Input",
+          "data": [
+            {
+              "innerIndex": 0,
+              "inputFieldName": "firstname",
+              "label": "enterfirstname",
+              "typeSelectField": "text"
+            },
+            {
+              "innerIndex": 1,
+              "inputFieldName": "lastname",
+              "label": "enter lastname",
+              "typeSelectField": "text"
+            }
+          ]
+        },
+        {
+          "type": "RadioBox",
+          "data": [
+            {
+              "innerIndex": 2,
+              "radioValue": "male",
+              "radioLabel": "male"
+            },
+            {
+              "innerIndex": 3,
+              "radioValue": "female",
+              "radioLabel": "female"
+            }
+          ]
+        },
+        {
+          "type": "TextArea",
+          "data": [
+            {
+              "innerIndex": 4,
+              "descriptionPlaceholder": "Tell Me about yourself"
+            },
+            {
+              "innerIndex": 5,
+              "descriptionPlaceholder": "Tell me about your friends"
+            }
+          ]
+        }
+      ],
+      "id": 46
     }
   ]
 }

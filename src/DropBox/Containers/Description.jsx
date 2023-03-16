@@ -3,6 +3,10 @@ import Box from "@mui/material/Box";
 import { Button, TextField } from "@mui/material";
 
 export const Image3 = ({index,setDescriptionPlaceholder,descriptionPlaceholderHandler,value,index2,setElements}) => {
+  let innerIndex
+for(let i = 0 ; i <= index;i++) {
+  innerIndex = i
+}
   return (
     <div>
       <Box
@@ -33,7 +37,7 @@ export const Image3 = ({index,setDescriptionPlaceholder,descriptionPlaceholderHa
           value={ value && value.descriptionPlaceholder}
         />
 
-      {!value && <Button onClick={() => descriptionPlaceholderHandler(index)}>Confirm</Button>}
+      {!value && <Button onClick={() => descriptionPlaceholderHandler(innerIndex,index)}>Confirm</Button>}
       </Box>
     </div>
   );
