@@ -262,6 +262,7 @@ const UpdateForm = ({ setId }) => {
     if (dataElements.length === 0) {
       setOpen(true);
       setEmptyFieldMessage("kindly Add The Fields");
+      setLoader(false)
     } else {
       const data = {
         dataElements,
@@ -285,6 +286,8 @@ const UpdateForm = ({ setId }) => {
           console.log("response", response.data);
           setId(data.id);
           setLoader(false);
+          setOpen(true)
+          setEmptyFieldMessage("Data Updated Successfully")
         })
         .catch((error) => {
           console.log("error", error.message);

@@ -267,7 +267,8 @@ const Index = ({ setId }) => {
     if(dataElements.length === 0){
       console.log("If Condition")
       setEmptyFieldMessage("Kindly Fill The Fields")
-      setOpen(true)      
+      setOpen(true)  
+      setLoader(false)    
     }else {
       console.log("Else Condition")
     const data = {
@@ -296,6 +297,7 @@ const Index = ({ setId }) => {
         setOpen(true)
         setEmptyFieldMessage("Error Occured")
         console.log("error", error.message);
+        setLoader(false)
       });
   }
   };
