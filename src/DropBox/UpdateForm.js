@@ -52,7 +52,6 @@ const UpdateForm = ({ setId }) => {
   const [checkBoxFieldValues, setCheckBoxFieldValues] = useState([]);
   const [descriptionValueState, setDescriptionValueState] = useState([]);
 
-
   const param = useParams();
   apiID = param.id;
 
@@ -253,34 +252,44 @@ const UpdateForm = ({ setId }) => {
         newElement = { type: element.type, data: element.data };
       }
 
-      return newElement;
+      if (newElement.data.length > 0) {
+        console.log(newElement);
+        return newElement;
+      }
     });
 
-    const data = {
-      dataElements,
-    };
-
-    console.log("Line 262", data);
-
-    let axiosCall = { url: "https://dynamic-form-builder-json-server.onrender.com/elements", method: "post" };
-    // let axiosCall = { url: "http://localhost:3000/elements", method: "post" };
-    if (apiID) {
-      axiosCall = {
-        // url: `http://localhost:3000/elements/${apiID}`,
-        url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
-        method: "put",
+    const finalData = dataElements.filter((item) => item !== undefined);
+    if (finalData.length === 0) {
+      setOpen(true);
+      setEmptyFieldMessage("kindly Add The Fields");
+    } else {
+      const data = {
+        finalData,
       };
+
+      let axiosCall = {
+        url: "https://dynamic-form-builder-json-server.onrender.com/elements",
+        method: "post",
+      };
+      // let axiosCall = { url: "http://localhost:3000/elements", method: "post" };
+      if (apiID) {
+        axiosCall = {
+          // url: `http://localhost:3000/elements/${apiID}`,
+          url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
+          method: "put",
+        };
+      }
+      axios({ ...axiosCall, contentType: "application/json", data })
+        .then((response) => {
+          const data = response.data;
+          console.log("response", response.data);
+          setId(data.id);
+          setLoader(false);
+        })
+        .catch((error) => {
+          console.log("error", error.message);
+        });
     }
-    axios({ ...axiosCall, contentType: "application/json", data })
-      .then((response) => {
-        const data = response.data;
-        console.log("response", response.data);
-        setId(data.id);
-        setLoader(false);
-      })
-      .catch((error) => {
-        console.log("error", error.message);
-      });
   };
 
   const drop = (ev) => {
@@ -337,43 +346,25 @@ const UpdateForm = ({ setId }) => {
 
     console.log(elements);
 
-  
-
     if (index2 || index2 === 0) {
       console.log("If Condition");
       const innerIndexValue = elements
-      .filter((element, elementIndex) => {
-        return elementIndex === index;
-      })
-      .map((item) => item.data.find((i) => i.innerIndex === index2));
+        .filter((element, elementIndex) => {
+          return elementIndex === index;
+        })
+        .map((item) => item.data.find((i) => i.innerIndex === index2));
       console.log(innerIndexValue, innerIndexValue[0].innerIndex);
-      // newElements = elements
-      //   .filter((element, elementIndex) => {
-      //     return elementIndex === index;
-      //   })
-      //   .map((item) => {
-
-      //       return {
-      //           type: item.type,
-      //           data: item.data.filter(
-      //             (element) => element.innerIndex !== innerIndexValue[0].innerIndex
-      //           ),
-      //         };
-      //     });
-
-      // [type : "Input", data : [{...},{...}]]
-      // [type : "radio", data : [{...}]]
-      // [type : "Check", data : [{...}]]
 
       newElements = elements.map((element, elementIndex) => {
-        
         let newData;
         if (elementIndex === index) {
-          console.log(element)
-          newData = element.data.filter((item) => item.innerIndex !== innerIndexValue[0].innerIndex);
-          return { type : element.type, data : newData}
+          console.log(element);
+          newData = element.data.filter(
+            (item) => item.innerIndex !== innerIndexValue[0].innerIndex
+          );
+          return { type: element.type, data: newData };
         }
-        return element
+        return element;
       });
 
       console.log(newElements);
@@ -391,8 +382,11 @@ const UpdateForm = ({ setId }) => {
     setLoader(true);
     console.log("apiID", apiID);
     if (apiID) {
-      axios({ url: `http://localhost:3000/elements/${apiID}`, method: "get" })
-        // axios({ url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`, method: "get" })
+      // axios({ url: `http://localhost:3000/elements/${apiID}`, method: "get" })
+      axios({
+        url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
+        method: "get",
+      })
         .then((response) => {
           // console.log(response.data.dataElements);
           const res = response.data.dataElements.map((item) => item);

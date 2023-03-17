@@ -241,12 +241,18 @@ const Index = ({ setId }) => {
     console.log("elements==>", elements);
     // setLoader(true);
 
+    // if(inputs.length > 0 && radioFieldValues.length > 0 && checkBoxFieldValues.length > 0 && descriptionValueState.length > 0){
+    //   console.log("Hello World")
+    // }else {
+    //   console.log("Hello Varhil")
+    // }
+ 
+
     const uniqueElements = [...new Set(elements)];
     console.log(uniqueElements);
 
-
-        const dataElements = uniqueElements.map((element) => {
-      let newElement;
+    const dataElements = uniqueElements.map((element) => {
+          let newElement;
       if (element === "Input") {
         newElement = { type: element, data: inputs };
       } else if (element === "RadioBox") {
@@ -256,19 +262,26 @@ const Index = ({ setId }) => {
       } else if (element === "TextArea") {
         newElement = { type: element, data: descriptionValueState };
       }
-      console.log(newElement);
-      return newElement;
+        if(newElement.data.length > 0){
+          return newElement;
+        }
+
     });
 
+    const finalData = dataElements.filter((item) => item !== undefined)
+
+    if(finalData.length === 0){
+      console.log("If Condition")
+      setEmptyFieldMessage("Kindly Fill The Fields")
+      setOpen(true)      
+    }else {
+      console.log("Else Condition")
     const data = {
-      dataElements,
+      finalData,
     };
 
-
-    console.log("Line 147", dataElements);
-
-    let axiosCall = { url: "https://dynamic-form-builder-json-server.onrender.com/elements", method: "post" };
-    // let axiosCall = { url: "http://localhost:3000/elements", method: "post" };
+    // let axiosCall = { url: "https://dynamic-form-builder-json-server.onrender.com/elements", method: "post" };
+    let axiosCall = { url: "http://localhost:3000/elements", method: "post" };
     if (apiID) {
       axiosCall = {
         // url: `http://localhost:3000/elements/${apiID}`,
@@ -286,6 +299,7 @@ const Index = ({ setId }) => {
       .catch((error) => {
         console.log("error", error.message);
       });
+  }
   };
 
   const drop = (ev) => {
@@ -336,6 +350,9 @@ const Index = ({ setId }) => {
   };
 
   const deleteMe = (index) => {
+
+
+
     const newElements = elements.filter(
       (element, elementIndex) => elementIndex !== index
     );
