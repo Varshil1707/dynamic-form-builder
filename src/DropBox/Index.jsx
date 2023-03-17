@@ -239,14 +239,8 @@ const Index = ({ setId }) => {
   const complete = () => {
     console.log("complete");
     console.log("elements==>", elements);
-    // setLoader(true);
+    setLoader(true);
 
-    // if(inputs.length > 0 && radioFieldValues.length > 0 && checkBoxFieldValues.length > 0 && descriptionValueState.length > 0){
-    //   console.log("Hello World")
-    // }else {
-    //   console.log("Hello Varhil")
-    // }
- 
 
     const uniqueElements = [...new Set(elements)];
     console.log(uniqueElements);
@@ -291,12 +285,16 @@ const Index = ({ setId }) => {
     }
     axios({ ...axiosCall, contentType: "application/json", data })
       .then((response) => {
+        setOpen(true)
+        setEmptyFieldMessage("Data Added Successfully")
         const data = response.data;
         console.log("response", response.data);
         setId(data.id);
         setLoader(false);
       })
       .catch((error) => {
+        setOpen(true)
+        setEmptyFieldMessage("Error Occured")
         console.log("error", error.message);
       });
   }

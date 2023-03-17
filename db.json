@@ -1545,6 +1545,59 @@
         }
       ],
       "id": 54
+    },
+    {
+      "dataElements": [
+        {
+          "type": "Input",
+          "data": [
+            {
+              "innerIndex": 0,
+              "inputFieldName": "Fullname",
+              "label": "enter fullname",
+              "typeSelectField": "text"
+            }
+          ]
+        },
+        {
+          "type": "RadioBox",
+          "data": [
+            {
+              "innerIndex": 1,
+              "radioValue": "male",
+              "radioLabel": "male"
+            },
+            {
+              "innerIndex": 2,
+              "radioValue": "female",
+              "radioLabel": "female"
+            }
+          ]
+        },
+        {
+          "type": "CheckBox",
+          "data": [
+            {
+              "innerIndex": 3,
+              "checkBoxLabel": "surat"
+            },
+            {
+              "innerIndex": 4,
+              "checkBoxLabel": "vapi"
+            }
+          ]
+        },
+        {
+          "type": "TextArea",
+          "data": [
+            {
+              "innerIndex": 5,
+              "descriptionPlaceholder": "Tell Me about yourself"
+            }
+          ]
+        }
+      ],
+      "id": 55
     }
   ]
 }
