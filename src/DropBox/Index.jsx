@@ -251,7 +251,7 @@ const Index = ({ setId }) => {
     const uniqueElements = [...new Set(elements)];
     console.log(uniqueElements);
 
-    const dataElements = uniqueElements.map((element) => {
+    const sortedData = uniqueElements.map((element) => {
           let newElement;
       if (element === "Input") {
         newElement = { type: element, data: inputs };
@@ -268,24 +268,24 @@ const Index = ({ setId }) => {
 
     });
 
-    const finalData = dataElements.filter((item) => item !== undefined)
+    const dataElements = sortedData.filter((item) => item !== undefined)
 
-    if(finalData.length === 0){
+    if(dataElements.length === 0){
       console.log("If Condition")
       setEmptyFieldMessage("Kindly Fill The Fields")
       setOpen(true)      
     }else {
       console.log("Else Condition")
     const data = {
-      finalData,
+      dataElements,
     };
 
-    let axiosCall = { url: "https://dynamic-form-builder-json-server.onrender.com/elements", method: "post" };
-    // let axiosCall = { url: "http://localhost:3000/elements", method: "post" };
+    // let axiosCall = { url: "https://dynamic-form-builder-json-server.onrender.com/elements", method: "post" };
+    let axiosCall = { url: "http://localhost:3000/elements", method: "post" };
     if (apiID) {
       axiosCall = {
-        // url: `http://localhost:3000/elements/${apiID}`,
-        url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
+        url: `http://localhost:3000/elements/${apiID}`,
+        // url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
         method: "put",
       };
     }
