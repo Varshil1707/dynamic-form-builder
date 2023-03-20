@@ -1690,12 +1690,6 @@
           "type": "Input",
           "data": [
             {
-              "innerIndex": 0,
-              "inputFieldName": "Firstname",
-              "label": "Enter Your Firstname",
-              "typeSelectField": "text"
-            },
-            {
               "innerIndex": 1,
               "inputFieldName": "Surname",
               "label": "Enter Surname",
@@ -1706,11 +1700,6 @@
         {
           "type": "RadioBox",
           "data": [
-            {
-              "innerIndex": 2,
-              "radioValue": "male",
-              "radioLabel": "Male"
-            },
             {
               "innerIndex": 3,
               "radioValue": "female",

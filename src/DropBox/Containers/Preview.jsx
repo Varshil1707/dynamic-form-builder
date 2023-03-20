@@ -33,8 +33,8 @@ const Preview = () => {
     document.getElementById("drawerButton").style.display = "none";
 
     axios({
-      url: `https://dynamic-form-builder-json-server.onrender.com/elements/${param.id}`,
-      // url: `http://localhost:3000/elements/${param.id}`,
+      // url: `https://dynamic-form-builder-json-server.onrender.com/elements/${param.id}`,
+      url: `http://localhost:3000/elements/${param.id}`,
       method: "get",
     })
       .then((response) => {
