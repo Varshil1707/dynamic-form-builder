@@ -245,7 +245,7 @@ const Index = ({ setId }) => {
     const uniqueElements = [...new Set(elements)];
     console.log(uniqueElements);
 
-    const sortedData = uniqueElements.map((element) => {
+    const dataElements = uniqueElements.map((element) => {
           let newElement;
       if (element === "Input") {
         newElement = { type: element, data: inputs };
@@ -262,15 +262,15 @@ const Index = ({ setId }) => {
 
     });
 
-    const dataElements = sortedData.filter((item) => item !== undefined)
-
-    if(dataElements.length === 0){
+    if(dataElements.includes(undefined)){
       console.log("If Condition")
-      setEmptyFieldMessage("Kindly Fill The Fields")
-      setOpen(true)  
-      setLoader(false)    
+        setEmptyFieldMessage("Kindly Fill The Fields or Delete the Useless Fields")
+        setOpen(true)  
+        setLoader(false)   
+      
     }else {
       console.log("Else Condition")
+
     const data = {
       dataElements,
     };

@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 
+
 const url = window.location.href;
 const urlSplit = url.split("/");
 let apiID = urlSplit[urlSplit.length - 1];
@@ -232,7 +233,7 @@ const UpdateForm = ({ setId }) => {
     const uniqueElements = [...new Set(elements)];
     console.log("uniqueElements ====>", uniqueElements);
 
-    const sortedData = uniqueElements.map((element) => {
+    const dataElements = uniqueElements.map((element) => {
       let newElement;
       if (element === "Input") {
         newElement = { type: element, data: inputs };
@@ -253,16 +254,15 @@ const UpdateForm = ({ setId }) => {
       }
 
       if (newElement.data.length > 0) {
-        console.log(newElement);
         return newElement;
       }
     });
 
-    const dataElements = sortedData.filter((item) => item !== undefined);
-    if (dataElements.length === 0) {
-      setOpen(true);
-      setEmptyFieldMessage("kindly Add The Fields");
-      setLoader(false)
+    
+    if(dataElements.includes(undefined)){
+      setEmptyFieldMessage("Kindly Fill The Fields or Delete the Useless Fields")
+      setOpen(true)  
+      setLoader(false)  
     } else {
       const data = {
         dataElements,
@@ -371,6 +371,7 @@ const UpdateForm = ({ setId }) => {
       });
 
       console.log(newElements);
+      
     } else {
       console.log("Else Condition");
       newElements = elements.filter(
@@ -403,7 +404,6 @@ const UpdateForm = ({ setId }) => {
         });
     }
   }, []);
-  console.log(elements);
 
   // const inputsData = elements.filter((item) => item.type === "Input")
 

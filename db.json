@@ -1598,6 +1598,158 @@
         }
       ],
       "id": 55
+    },
+    {
+      "dataElements": [
+        {
+          "type": "Input",
+          "data": [
+            {
+              "innerIndex": 0,
+              "inputFieldName": "Fullname",
+              "label": "World",
+              "typeSelectField": "text"
+            }
+          ]
+        },
+        {
+          "type": "RadioBox",
+          "data": [
+            {
+              "innerIndex": 1,
+              "radioValue": "Tell Me about yourself",
+              "radioLabel": "Surat"
+            }
+          ]
+        }
+      ],
+      "id": 56
+    },
+    {
+      "dataElements": [
+        {
+          "type": "Input",
+          "data": []
+        },
+        {
+          "type": "RadioBox",
+          "data": [
+            {
+              "innerIndex": 2,
+              "radioValue": "female",
+              "radioLabel": "female"
+            }
+          ]
+        }
+      ],
+      "id": 57
+    },
+    {
+      "dataElements": [
+        {
+          "type": "Input",
+          "data": [
+            {
+              "innerIndex": 0,
+              "inputFieldName": "Fullname",
+              "label": "Enter Fullname",
+              "typeSelectField": "text"
+            }
+          ]
+        },
+        {
+          "type": "RadioBox",
+          "data": [
+            {
+              "innerIndex": 1,
+              "radioValue": "male",
+              "radioLabel": "male"
+            },
+            {
+              "innerIndex": 2,
+              "radioValue": "female",
+              "radioLabel": "female"
+            }
+          ]
+        },
+        {
+          "type": "TextArea",
+          "data": [
+            {
+              "innerIndex": 3,
+              "descriptionPlaceholder": "Tell Me about yourself"
+            }
+          ]
+        }
+      ],
+      "id": 58
+    },
+    {
+      "dataElements": [
+        {
+          "type": "Input",
+          "data": [
+            {
+              "innerIndex": 0,
+              "inputFieldName": "Firstname",
+              "label": "Enter Your Firstname",
+              "typeSelectField": "text"
+            },
+            {
+              "innerIndex": 1,
+              "inputFieldName": "Surname",
+              "label": "Enter Surname",
+              "typeSelectField": "text"
+            }
+          ]
+        },
+        {
+          "type": "RadioBox",
+          "data": [
+            {
+              "innerIndex": 2,
+              "radioValue": "male",
+              "radioLabel": "Male"
+            },
+            {
+              "innerIndex": 3,
+              "radioValue": "female",
+              "radioLabel": "Female"
+            }
+          ]
+        },
+        {
+          "type": "CheckBox",
+          "data": [
+            {
+              "innerIndex": 4,
+              "checkBoxLabel": "Ahmedavad"
+            },
+            {
+              "innerIndex": 5,
+              "checkBoxLabel": "Surat"
+            },
+            {
+              "innerIndex": 6,
+              "checkBoxLabel": "Gandhinagar"
+            }
+          ]
+        },
+        {
+          "type": "TextArea",
+          "data": [
+            {
+              "innerIndex": 7,
+              "descriptionPlaceholder": "Tell Me about yourself"
+            },
+            {
+              "innerIndex": 8,
+              "descriptionPlaceholder": "Tell me about your friends"
+            }
+          ]
+        }
+      ],
+      "id": 59
     }
   ]
 }
