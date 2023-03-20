@@ -347,7 +347,7 @@ const UpdateForm = ({ setId }) => {
 
     let newElements;
 
-    console.log(elements);
+    console.log(elements)
 
     if (index2 || index2 === 0) {
       console.log("If Condition");
