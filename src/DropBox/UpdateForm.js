@@ -386,11 +386,11 @@ const UpdateForm = ({ setId }) => {
     setLoader(true);
     console.log("apiID", apiID);
     if (apiID) {
-      axios({ url: `http://localhost:3000/elements/${apiID}`, method: "get" })
-      // axios({
-      //   url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
-      //   method: "get",
-      // })
+      // axios({ url: `http://localhost:3000/elements/${apiID}`, method: "get" })
+      axios({
+        url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
+        method: "get",
+      })
         .then((response) => {
           // console.log(response.data.dataElements);
           const res = response.data.dataElements.map((item) => item);
