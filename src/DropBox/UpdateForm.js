@@ -272,14 +272,17 @@ const UpdateForm = ({ setId, id }) => {
       //   url: "https://dynamic-form-builder-json-server.onrender.com/elements",
       //   method: "post",
       // };
-      let axiosCall = { url: "http://localhost:3000/elements", method: "post" };
-      if (apiID) {
+      let axiosCall 
+      if (id !== null) {
         axiosCall = {
-          url: `http://localhost:3000/elements/${apiID}`,
+          url: `https://todo-ac50c-default-rtdb.firebaseio.com/elements/${id}.json`,
           // url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
           method: "put",
         };
+      }else {
+        axiosCall = { url: "https://todo-ac50c-default-rtdb.firebaseio.com/elements.json", method: "post" };
       }
+
       axios({ ...axiosCall, contentType: "application/json", data })
         .then((response) => {
           const data = response.data;
@@ -389,7 +392,7 @@ const UpdateForm = ({ setId, id }) => {
     axios({
       // url: `https://dynamic-form-builder-json-server.onrender.com/elements/${param.id}`,
       // url: `http://localhost:3000/elements/${param.id}`,
-      url: `https://todo-ac50c-default-rtdb.firebaseio.com/elements.json`,
+      url: `https://todo-ac50c-default-rtdb.firebaseio.com/elements.json`, 
       method: "get",
     })
       .then((response) => {
