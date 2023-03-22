@@ -287,7 +287,7 @@ const UpdateForm = ({ setId, id }) => {
         .then((response) => {
           const data = response.data;
           console.log("response", response.data);
-          setId(data.id);
+          // setId(data.id);
           setLoader(false);
           setOpen(true)
           setEmptyFieldMessage("Data Updated Successfully")
