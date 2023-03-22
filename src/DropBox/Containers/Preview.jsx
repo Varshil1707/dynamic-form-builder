@@ -19,7 +19,8 @@ import { LinearProgress } from "@mui/material";
 
 const drawerWidth = 240;
 
-const Preview = () => {
+const Preview = ({id}) => {
+  console.log(id)
   const theme = useTheme();
   const [loader, setLoader] = useState(false);
   //Api State
@@ -33,12 +34,14 @@ const Preview = () => {
     document.getElementById("drawerButton").style.display = "none";
 
     axios({
-      url: `https://dynamic-form-builder-json-server.onrender.com/elements/${param.id}`,
+      // url: `https://dynamic-form-builder-json-server.onrender.com/elements/${param.id}`,
       // url: `http://localhost:3000/elements/${param.id}`,
+      url: `https://todo-ac50c-default-rtdb.firebaseio.com/elements.json`,
       method: "get",
     })
       .then((response) => {
-        setElements(response.data.dataElements);
+        console.log(response.data[`${id}`].dataElements)
+        setElements(response.data[`${id}`].dataElements);
         setLoader(false);
       })
       .catch((error) => {
@@ -49,7 +52,7 @@ const Preview = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(elements);
+  console.log("Preview elements",elements);
 
   return (
     <>

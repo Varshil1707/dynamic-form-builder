@@ -10,13 +10,14 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { Route, Routes, Link, useLocation } from "react-router-dom";
+import { Route, Routes, Link, useLocation, useParams, Navigate } from "react-router-dom";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import EditIcon from "@mui/icons-material/Edit";
 import Preview from "../DropBox/Containers/Preview";
 import LeftMenu from "./LeftMenu";
 import DropBox from "./../DropBox/Index";
 import UpdateForm from "../DropBox/UpdateForm";
+import ProtectedRoutes from './ProtectedRoutes'
 import axios from "axios";
 
 const drawerWidth = 240;
@@ -110,7 +111,7 @@ const Content = ({ open, handleDrawerClose, theme, setId }) => {
   );
 };
 
-const Test = ({ open, handleDrawerClose, theme, setId }) => {
+const Test = ({ open, handleDrawerClose, theme, setId, id }) => {
   return (
     <>
       <Drawer variant="permanent" open={open}>
@@ -127,7 +128,7 @@ const Test = ({ open, handleDrawerClose, theme, setId }) => {
         <LeftMenu open={LeftMenu} />
       </Drawer>
       <Box component="main" mt={2} sx={{ flexGrow: 1, p: 3 }}>
-        <UpdateForm setId={setId} />
+        <UpdateForm setId={setId} id = {id} />
       </Box>
     </>
   );
@@ -148,7 +149,9 @@ export default function MiniDrawer() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  //console.log('id', id);
+
+  console.log("Id",id)
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -168,43 +171,60 @@ export default function MiniDrawer() {
             <MenuIcon />
           </IconButton>
 
-          <Box
-            ml={"auto"}
-            component={Link}
-            to={isPreview ? `/home/${id} ` : `/preview/${id}`}
-          >
-            {!isPreview ? (
-              <RemoveRedEyeIcon sx={{ color: "#fff" }} />
-            ) : (
-              <EditIcon sx={{ color: "#fff" }} />
-            )}
-          </Box>
+          {id !== null && (
+            <Box
+              ml={"auto"}
+              component={Link}
+              to={isPreview ? `/edit` : `/preview`}
+            >
+              {!isPreview ? (
+                <RemoveRedEyeIcon sx={{ color: "#fff" }} />
+              ) : (
+                <EditIcon sx={{ color: "#fff" }} />
+              )}
+            </Box>
+          )}
         </Toolbar>
       </AppBar>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <Content
-              open={open}
-              handleDrawerClose={handleDrawerClose}
-              theme={theme}
-              setId={setId}
-            />
-          }
-        />
-        <Route
-          path="/home/:id"
-          element={
-            <Test
-              open={open}
-              handleDrawerClose={handleDrawerClose}
-              theme={theme}
-              setId={setId}
-            />
-          }
-        />
-        <Route path="/preview/:id" element={<Preview />} />
+          <Route
+            path="/"
+            element={
+              <Content
+                open={open}
+                handleDrawerClose={handleDrawerClose}
+                theme={theme}
+                setId={setId}
+              />
+            }
+          />
+          {/* <Route path="/preview" element={<ProtectedRoutes params={id}> </ProtectedRoutes>  } /> */}
+          <Route path="/preview" element={<Preview id={id}/>} />
+
+
+          <Route
+            path="/edit"
+            element={
+              <Test
+                open={open}
+                handleDrawerClose={handleDrawerClose}
+                theme={theme}
+                setId={setId}
+                id={id}
+              />
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <Content
+                open={open}
+                handleDrawerClose={handleDrawerClose}
+                theme={theme}
+                setId={setId}
+              />
+            }
+          />
       </Routes>
     </Box>
   );

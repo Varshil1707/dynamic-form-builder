@@ -33,9 +33,8 @@ const DeleteMe = ({ deleteMe, index }) => {
   );
 };
 
-const UpdateForm = ({ setId }) => {
+const UpdateForm = ({ setId, id }) => {
   const [elements, setElements] = useState([]);
-  const [childElements, setChildElements] = useState([]);
   const [loader, setLoader] = useState(false);
   const [open, setOpen] = useState(false);
   const [emptyFieldMessage, setEmptyFieldMessage] = useState("");
@@ -55,6 +54,7 @@ const UpdateForm = ({ setId }) => {
 
   const param = useParams();
   apiID = param.id;
+  console.log("Is Update", id)
 
   const saveInputs = (index) => {
     let dataArray = [];
@@ -268,15 +268,15 @@ const UpdateForm = ({ setId }) => {
         dataElements,
       };
 
-      let axiosCall = {
-        url: "https://dynamic-form-builder-json-server.onrender.com/elements",
-        method: "post",
-      };
-      // let axiosCall = { url: "http://localhost:3000/elements", method: "post" };
+      // let axiosCall = {
+      //   url: "https://dynamic-form-builder-json-server.onrender.com/elements",
+      //   method: "post",
+      // };
+      let axiosCall = { url: "http://localhost:3000/elements", method: "post" };
       if (apiID) {
         axiosCall = {
-          // url: `http://localhost:3000/elements/${apiID}`,
-          url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
+          url: `http://localhost:3000/elements/${apiID}`,
+          // url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
           method: "put",
         };
       }
@@ -384,28 +384,28 @@ const UpdateForm = ({ setId }) => {
 
   useEffect(() => {
     setLoader(true);
-    console.log("apiID", apiID);
-    if (apiID) {
-      // axios({ url: `http://localhost:3000/elements/${apiID}`, method: "get" })
-      axios({
-        url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
-        method: "get",
-      })
-        .then((response) => {
-          // console.log(response.data.dataElements);
-          const res = response.data.dataElements.map((item) => item);
-          setElements(res);
+    document.getElementById("drawerButton").style.display = "none";
 
-          setLoader(false);
-        })
-        .catch((error) => {
-          console.log("error", error.message);
-          setLoader(false);
-        });
-    }
+    axios({
+      // url: `https://dynamic-form-builder-json-server.onrender.com/elements/${param.id}`,
+      // url: `http://localhost:3000/elements/${param.id}`,
+      url: `https://todo-ac50c-default-rtdb.firebaseio.com/elements.json`,
+      method: "get",
+    })
+      .then((response) => {
+        console.log(response.data[`${id}`].dataElements )
+        setElements(response.data[`${id}`].dataElements);
+        setLoader(false);
+      })
+      .catch((error) => {
+        setLoader(false);
+        console.log("error", error.message);
+      });
+
+
   }, []);
 
-  // const inputsData = elements.filter((item) => item.type === "Input")
+
 
   return (
     <>

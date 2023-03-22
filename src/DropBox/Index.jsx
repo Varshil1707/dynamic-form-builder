@@ -275,28 +275,28 @@ const Index = ({ setId }) => {
       dataElements,
     };
 
-    let axiosCall = { url: "https://dynamic-form-builder-json-server.onrender.com/elements", method: "post" };
-    // let axiosCall = { url: "http://localhost:3000/elements", method: "post" };
-    if (apiID) {
-      axiosCall = {
-        // url: `http://localhost:3000/elements/${apiID}`,
-        url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
-        method: "put",
-      };
-    }
+    // let axiosCall = { url: "https://dynamic-form-builder-json-server.onrender.com/elements", method: "post" };
+    let axiosCall = { url: "https://todo-ac50c-default-rtdb.firebaseio.com/elements.json", method: "post" };
+    // if (apiID) {
+    //   axiosCall = {
+    //     url: `http://localhost:3000/elements/${apiID}`,
+    //     // url: `https://dynamic-form-builder-json-server.  onrender.com/elements/${apiID}`,
+    //     method: "put",
+    //   };
+    // }
     axios({ ...axiosCall, contentType: "application/json", data })
       .then((response) => {
         setOpen(true)
         setEmptyFieldMessage("Data Added Successfully")
         const data = response.data;
-        console.log("response", response.data);
-        setId(data.id);
+        console.log("response", response.data.name);
+        setId(response.data.name);
         setLoader(false);
       })
       .catch((error) => {
         setOpen(true)
         setEmptyFieldMessage("Error Occured")
-        console.log("error", error.message);
+        console.log("error", error);
         setLoader(false)
       });
   }
@@ -351,8 +351,6 @@ const Index = ({ setId }) => {
 
   const deleteMe = (index) => {
 
-
-
     const newElements = elements.filter(
       (element, elementIndex) => elementIndex !== index
     );
@@ -361,6 +359,7 @@ const Index = ({ setId }) => {
     );
     setElements([...newElements]);
     setChildElements([...newChildElements]);
+
   };
 
   return (
