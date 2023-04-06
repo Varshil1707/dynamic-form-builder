@@ -56,7 +56,7 @@ const UpdateForm = ({ setId, id }) => {
   const param = useParams();
   apiID = param.id;
 
-
+  console.log(id)
   const saveInputs = (index) => {
     let dataArray = [];
     const existingIndex = inputs.find((element) => element.index === index);
@@ -236,22 +236,20 @@ const UpdateForm = ({ setId, id }) => {
     const data = {
       elements,
     };
-    console.log(data)
-
+    console.log(id)
     let axiosCall 
     if (id !== null) {
       axiosCall = {
         url: `https://todo-ac50c-default-rtdb.firebaseio.com/elements/${id}.json`,
-        // url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
         method: "put",
       };
     }else {
       axiosCall = { url: "https://todo-ac50c-default-rtdb.firebaseio.com/elements.json", method: "post" };
     }
 
+    setOpen(true)
     axios({ ...axiosCall, contentType: "application/json", data })
       .then((response) => {
-        setOpen(true)
         setEmptyFieldMessage("Data Added Successfully")
         const data = response.data;
         console.log("response", response.data.name);
