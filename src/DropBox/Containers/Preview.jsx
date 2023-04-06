@@ -10,7 +10,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import Inputpreview from './PreviewComponents/Inputpreview'
+import Inputpreview from "./PreviewComponents/Inputpreview";
 import RadioBox from "./PreviewComponents/RadioBox";
 import CheckBox from "./PreviewComponents/CheckboxPreview";
 import TextArea from "./PreviewComponents/TextArea";
@@ -19,15 +19,14 @@ import { LinearProgress } from "@mui/material";
 
 const drawerWidth = 240;
 
-const Preview = ({id}) => {
-  console.log(id)
+const Preview = ({ id }) => {
+  console.log(id);
   const theme = useTheme();
   const [loader, setLoader] = useState(false);
   //Api State
   const [elements, setElements] = useState([]);
 
   const param = useParams();
-  console.log("param", param);
 
   useEffect(() => {
     setLoader(true);
@@ -40,8 +39,8 @@ const Preview = ({id}) => {
       method: "get",
     })
       .then((response) => {
-        console.log(response.data[`${id}`].dataElements)
-        setElements(response.data[`${id}`].dataElements);
+        console.log(response.data[`${id}`].elements);
+        setElements(response.data[`${id}`].elements);
         setLoader(false);
       })
       .catch((error) => {
@@ -51,8 +50,6 @@ const Preview = ({id}) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  console.log("Preview elements",elements);
 
   return (
     <>
@@ -71,18 +68,16 @@ const Preview = ({id}) => {
         )}
         {elements.map((element, index) => {
           let jsx;
-
+          console.log(element);
           if (element.type === "Input") {
             jsx = (
               <>
-                {element.data.map((item) => (
-                  <Inputpreview
-                    key={index}
-                    name={item.inputFieldName}
-                    placeholder={item.label}
-                    type={item.typeSelectField}
-                  />
-                ))}
+                <Inputpreview
+                  key={index}
+                  name={element.data.inputFieldName}
+                  placeholder={element.data.label}
+                  type={element.data.typeSelectField}
+                />
               </>
             );
           } else if (element.type === "RadioBox") {
@@ -94,21 +89,22 @@ const Preview = ({id}) => {
           } else if (element.type === "CheckBox") {
             jsx = (
               <>
-                {element.data.map((item, index) => (
-                  <CheckBox
-                    key={index}
-                    value={item.checkBoxLabel}
-                    label={item.checkBoxLabel}
-                  />
-                ))}
+                <CheckBox
+                  key={index}
+                  value={element.data.checkBoxLabel}
+                  label={element.data.checkBoxLabel}
+                />
               </>
             );
           } else if (element.type === "TextArea") {
             jsx = (
               <>
-                {element.data.map((item, index) => (
-                  <TextArea key={index} placeholder={`${item.descriptionPlaceholder}`} />
-                ))}
+                {/* {element.data.map((item, index) => ( */}
+                <TextArea
+                  key={index}
+                  placeholder={`${element.data.descriptionPlaceHolder}`}
+                />
+                {/* ))} */}
               </>
             );
           }

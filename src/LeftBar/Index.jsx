@@ -201,7 +201,6 @@ export default function MiniDrawer() {
           {/* <Route path="/preview" element={<ProtectedRoutes params={id}> </ProtectedRoutes>  } /> */}
           <Route path="/preview" element={<Preview id={id}/>} />
 
-
           <Route
             path="/edit"
             element={

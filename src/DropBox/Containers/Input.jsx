@@ -14,12 +14,14 @@ const Image = ({
   value,
   setElements,
   index2,
+  elements
 }) => {
 
 let innerIndex
 for(let i = 0 ; i <= index;i++) {
   innerIndex = i
 }
+
 
   return (
     <div>
@@ -41,8 +43,7 @@ for(let i = 0 ; i <= index;i++) {
           variant="outlined"
           name="inputValue"
           placeholder="Enter Field Name"
-          // onChange={handleChangeInputs}
-          // onChange={(e) => setInputField(e.target.value)}
+
           onChange={
             value
               ? (e) =>
@@ -53,9 +54,14 @@ for(let i = 0 ; i <= index;i++) {
 
                     return newArray;
                   })  
-              : (e) => setInputField(e.target.value)
-          }
-          value={value && value.inputFieldName}
+              // : (e) => setInputField(e.target.value)
+              : (e) => setElements((prev) => {
+                let newArray = [...prev]
+                newArray[index].data.inputFieldName = e.target.value
+                return newArray
+              })
+          }  
+          value={value ? value.inputFieldName : elements[index].data.inputFieldName}
         />
         <TextField
           placeholder="Enter Placeholder Field"
@@ -67,11 +73,16 @@ for(let i = 0 ; i <= index;i++) {
                     const newArray = [...prev];
                     newArray[index].data[index2].label = e.target.value;
 
+
                     return newArray;
                   })
-              : (e) => setPlaceholderFiledName(e.target.value)
+              :  (e) => setElements((prev) => {
+                let newArray = [...prev]
+                newArray[index].data.label = e.target.value
+                return newArray
+              })
           }
-          value={value && value.label}
+          value={value ? value.label : elements[index].data.label}
         />
         <Select
           // onChange={(e, newValue) => setTypeSelectField(newValue)}
@@ -83,11 +94,16 @@ for(let i = 0 ; i <= index;i++) {
                     newArray[index].data[index2].typeSelectField = newValue;
                     return newArray;
                   })
-              : (e, newValue) => setTypeSelectField(newValue)
+              : (e,newValue) => setElements((prev) => {
+                let newArray = [...prev]
+                newArray[index].data.typeSelectField = newValue
+                return newArray
+              })
           }
           placeholder="Select Field Type..."
           indicator={<KeyboardArrowDown />}
-          value={value && value.typeSelectField}
+          // value={value && value.typeSelectField}
+          value={value ? value.typeSelectField : elements[index].data.typeSelectField}
           sx={{
             width: 240,
             [`& .${selectClasses.indicator}`]: {
@@ -102,7 +118,7 @@ for(let i = 0 ; i <= index;i++) {
           <Option value="number">Number</Option>
           <Option value="email">Email</Option>
         </Select>
-       {!value && <Button onClick={() => saveInputs(innerIndex,index)}>Save</Button>}
+
       </Box>
     </div>
   );

@@ -14,6 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
+import { ConstructionOutlined } from "@mui/icons-material";
 
 
 const url = window.location.href;
@@ -54,7 +55,7 @@ const UpdateForm = ({ setId, id }) => {
 
   const param = useParams();
   apiID = param.id;
-  console.log("Is Update", id)
+
 
   const saveInputs = (index) => {
     let dataArray = [];
@@ -210,92 +211,59 @@ const UpdateForm = ({ setId, id }) => {
 
   const processImage = (id) => {
     console.log("processImage", elements);
-    setElements([...elements, id]);
+    setElements([...elements, {type : id, data : {inputFieldName : "", label : "", typeSelectField : ""}}]);
   };
   const processComment = (id) => {
     console.log("processComment");
-    setElements([...elements, id]);
+    setElements([...elements, {type : id, data : {radioValue : "", radioLabel : ""}}]);
   };
   const processMultipalText = (id) => {
     console.log("processMultipalText");
-    setElements([...elements, id]);
+    setElements([...elements, {type : id, data :{checkBoxLabel : ""}}]);
   };
   const processImage3 = (id) => {
     console.log("processImage3");
-    setElements([...elements, id]);
+    setElements([...elements, {type : id, data :{descriptionPlaceHolder : ""}}]);
   };
 
   const complete = () => {
     console.log("complete");
 
+    console.log("complete");
     console.log("elements==>", elements);
+    setLoader(true);
 
-    const uniqueElements = [...new Set(elements)];
-    console.log("uniqueElements ====>", uniqueElements);
+    const data = {
+      elements,
+    };
+    console.log(data)
 
-    const dataElements = uniqueElements.map((element) => {
-      let newElement;
-      if (element === "Input") {
-        newElement = { type: element, data: inputs };
-      } else if (element.type === "Input") {
-        newElement = { type: element.type, data: element.data };
-      } else if (element === "RadioBox") {
-        newElement = { type: element, data: radioFieldValues };
-      } else if (element.type === "RadioBox") {
-        newElement = { type: element.type, data: element.data };
-      } else if (element === "CheckBox") {
-        newElement = { type: element, data: checkBoxFieldValues };
-      } else if (element.type === "CheckBox") {
-        newElement = { type: element.type, data: element.data };
-      } else if (element === "TextArea") {
-        newElement = { type: element, data: descriptionValueState };
-      } else if (element.type === "TextArea") {
-        newElement = { type: element.type, data: element.data };
-      }
-
-      if (newElement.data.length > 0) {
-        return newElement;
-      }
-    });
-
-    
-    if(dataElements.includes(undefined)){
-      setEmptyFieldMessage("Kindly Fill The Fields or Delete the Useless Fields")
-      setOpen(true)  
-      setLoader(false)  
-    } else {
-      const data = {
-        dataElements,
+    let axiosCall 
+    if (id !== null) {
+      axiosCall = {
+        url: `https://todo-ac50c-default-rtdb.firebaseio.com/elements/${id}.json`,
+        // url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
+        method: "put",
       };
-
-      // let axiosCall = {
-      //   url: "https://dynamic-form-builder-json-server.onrender.com/elements",
-      //   method: "post",
-      // };
-      let axiosCall 
-      if (id !== null) {
-        axiosCall = {
-          url: `https://todo-ac50c-default-rtdb.firebaseio.com/elements/${id}.json`,
-          // url: `https://dynamic-form-builder-json-server.onrender.com/elements/${apiID}`,
-          method: "put",
-        };
-      }else {
-        axiosCall = { url: "https://todo-ac50c-default-rtdb.firebaseio.com/elements.json", method: "post" };
-      }
-
-      axios({ ...axiosCall, contentType: "application/json", data })
-        .then((response) => {
-          const data = response.data;
-          console.log("response", response.data);
-          // setId(data.id);
-          setLoader(false);
-          setOpen(true)
-          setEmptyFieldMessage("Data Updated Successfully")
-        })
-        .catch((error) => {
-          console.log("error", error.message);
-        });
+    }else {
+      axiosCall = { url: "https://todo-ac50c-default-rtdb.firebaseio.com/elements.json", method: "post" };
     }
+
+    axios({ ...axiosCall, contentType: "application/json", data })
+      .then((response) => {
+        setOpen(true)
+        setEmptyFieldMessage("Data Added Successfully")
+        const data = response.data;
+        console.log("response", response.data.name);
+        setId(response.data.name);
+        setLoader(false);
+      })
+      .catch((error) => {
+        setOpen(true)
+        setEmptyFieldMessage("Error Occured")
+        console.log("error", error);
+        setLoader(false)
+      });
   };
 
   const drop = (ev) => {
@@ -396,8 +364,9 @@ const UpdateForm = ({ setId, id }) => {
       method: "get",
     })
       .then((response) => {
-        console.log(response.data[`${id}`].dataElements )
-        setElements(response.data[`${id}`].dataElements);
+        console.log(response)
+        console.log(response.data[`${id}`].elements )
+        setElements(response.data[`${id}`].elements);
         setLoader(false);
       })
       .catch((error) => {
@@ -408,11 +377,11 @@ const UpdateForm = ({ setId, id }) => {
 
   }, []);
 
-
+console.log(elements) 
 
   return (
     <>
-      <Typography
+     <Typography
         color="primary"
         variant="h3"
         id="previewText"
@@ -443,40 +412,16 @@ const UpdateForm = ({ setId, id }) => {
           if (element.type === "Input") {
             jsx = (
               <>
-                {element.data.map((item, index2) => (
-                  <>
-                    <DeleteMe
-                      deleteMe={() => deleteMe(index, item.innerIndex)}
-                    />
-                    <Image
-                      key={index}
-                      index={index}
-                      index2={index2}
-                      value={item}
-                      setElements={setElements}
-                    />
-                    <Snackbar
-                      open={open}
-                      autoHideDuration={1000}
-                      onClose={handleClose}
-                      message="Added"
-                      action={action}
-                    />
-                  </>
-                ))}
-              </>
-            );
-          } else if (element === "Input") {
-            jsx = (
-              <>
                 <DeleteMe deleteMe={deleteMe} index={index} />
                 <Image
                   index={index}
-                  key={index}
                   setInputField={setInputFieldName}
                   setPlaceholderFiledName={setLabel}
                   setTypeSelectField={setTypeSelectField}
                   saveInputs={saveInputs}
+                  inputFieldName={inputFieldName}
+                  elements={elements}
+                  setElements={setElements}
                 />
                 <Snackbar
                   open={open}
@@ -490,42 +435,14 @@ const UpdateForm = ({ setId, id }) => {
           } else if (element.type === "RadioBox") {
             jsx = (
               <>
-                {element.data.map((item, index2) => (
-                  <>
-                    <DeleteMe
-                      deleteMe={() => deleteMe(index, item.innerIndex)}
-                    />
-                    <Comment
-                      index={index}
-                      key={index}
-                      index2={index2}
-                      saveRadioInputs={saveRadioInputs}
-                      radioValue={radioValue}
-                      radioLabel={radioLabel}
-                      value={item}
-                      setElements={setElements}
-                    />
-                    <Snackbar
-                      open={open}
-                      autoHideDuration={1000}
-                      onClose={handleClose}
-                      message="Added"
-                      action={action}
-                    />
-                  </>
-                ))}
-              </>
-            );
-          } else if (element === "RadioBox") {
-            jsx = (
-              <>
                 <DeleteMe deleteMe={deleteMe} index={index} />
                 <Comment
                   index={index}
-                  key={index}
                   saveRadioInputs={saveRadioInputs}
                   setRadioValue={setRadioValue}
                   setRadioLabel={setRadioLabel}
+                  elements={elements}
+                  setElements={setElements}
                 />
                 <Snackbar
                   open={open}
@@ -539,40 +456,14 @@ const UpdateForm = ({ setId, id }) => {
           } else if (element.type === "CheckBox") {
             jsx = (
               <>
-                {element.data.map((item, index2) => (
-                  <>
-                    <DeleteMe
-                      deleteMe={() => deleteMe(index, item.innerIndex)}
-                    />
-                    <MultipalText
-                      key={index}
-                      index={index}
-                      index2={index2}
-                      checkBoxLabel={checkBoxLabel}
-                      saveCheckBox={saveCheckBox}
-                      value={item}
-                      setElements={setElements}
-                    />
-                    <Snackbar
-                      open={open}
-                      autoHideDuration={1000}
-                      onClose={handleClose}
-                      message="Added"
-                      action={action}
-                    />
-                  </>
-                ))}
-              </>
-            );
-          } else if (element === "CheckBox") {
-            jsx = (
-              <>
                 <DeleteMe deleteMe={deleteMe} index={index} />
                 <MultipalText
                   index={index}
-                  key={index}
+                  checkBoxLabel={checkBoxLabel}
                   setCheckBoxLabel={setCheckBoxLabel}
                   saveCheckBox={saveCheckBox}
+                  setElements={setElements}
+                  elements={elements}
                 />
                 <Snackbar
                   open={open}
@@ -586,41 +477,13 @@ const UpdateForm = ({ setId, id }) => {
           } else if (element.type === "TextArea") {
             jsx = (
               <>
-                {element.data.map((item, index2) => (
-                  <>
-                    <DeleteMe
-                      deleteMe={() => deleteMe(index, item.innerIndex)}
-                    />
-                    <Image3
-                      index={index}
-                      key={index}
-                      index2={index2}
-                      descriptionPlaceholderHandler={
-                        descriptionPlaceholderHandler
-                      }
-                      value={item}
-                      setElements={setElements}
-                    />
-                    <Snackbar
-                      open={open}
-                      autoHideDuration={1000}
-                      onClose={handleClose}
-                      message="Added"
-                      action={action}
-                    />
-                  </>
-                ))}
-              </>
-            );
-          } else if (element === "TextArea") {
-            jsx = (
-              <>
                 <DeleteMe deleteMe={deleteMe} index={index} />
                 <Image3
                   index={index}
-                  key={index}
                   setDescriptionPlaceholder={setDescriptionPlaceholder}
                   descriptionPlaceholderHandler={descriptionPlaceholderHandler}
+                  setElements={setElements}
+                  elements={elements}
                 />
                 <Snackbar
                   open={open}

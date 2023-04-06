@@ -2,11 +2,22 @@ import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import { Button, TextField } from "@mui/material";
 
-export const Image3 = ({index,setDescriptionPlaceholder,descriptionPlaceholderHandler,value,index2,setElements}) => {
-  let innerIndex
-for(let i = 0 ; i <= index;i++) {
-  innerIndex = i
-}
+export const Image3 = ({
+  index,
+  setDescriptionPlaceholder,
+  descriptionPlaceholderHandler,
+  value,
+  index2,
+  setElements,
+  elements,
+}) => {
+  let innerIndex;
+  for (let i = 0; i <= index; i++) {
+    innerIndex = i;
+  }
+
+  console.log(elements);
+
   return (
     <div>
       <Box
@@ -23,21 +34,34 @@ for(let i = 0 ; i <= index;i++) {
           gap: 2,
         }}
       >
-     
         <TextField
           id="outlined-basic"
           placeholder="Enter Placeholder value for Description"
           variant="outlined"
-          sx={{width : "50%"}}
-          onChange = {value ? (e) => setElements((prev) => {
-            const newValue = [...prev]
-            newValue[index].data[index2].descriptionPlaceholder = e.target.value
-            return newValue
-          }) : (e) => setDescriptionPlaceholder(e.target.value)} 
-          value={ value && value.descriptionPlaceholder}
+          sx={{ width: "50%" }}
+          onChange={
+            value
+              ? (e) =>
+                  setElements((prev) => {
+                    const newValue = [...prev];
+                    newValue[index].data[index2].descriptionPlaceholder =
+                      e.target.value;
+                    return newValue;
+                  })
+              : (e) =>
+                  setElements((prev) => {
+                    let newArray = [...prev];
+                    newArray[index].data.descriptionPlaceHolder =
+                      e.target.value;
+                    return newArray;
+                  })
+          }
+          value={
+            value
+              ? value.descriptionPlaceholder
+              : elements[index].data.descriptionPlaceHolder
+          }
         />
-
-      {!value && <Button onClick={() => descriptionPlaceholderHandler(innerIndex,index)}>Confirm</Button>}
       </Box>
     </div>
   );

@@ -10,13 +10,13 @@ export default function RadioButtonsGroup({ data }) {
   return (
     <FormControl>
       <RadioGroup aria-labelledby="demo-radio-buttons-group-label">
-        {data.map((item) => (
+        {/* {data.map((item) => ( */}
           <FormControlLabel
-            value={item.radioValue}
+            value={data.radioValue}
             control={<Radio />}
-            label={item.radioLabel}
+            label={data.radioLabel}
           />
-        ))}
+        {/* ))} */}
       </RadioGroup>
     </FormControl>
   );
