@@ -16,7 +16,6 @@ import {
 import { useParams } from "react-router-dom";
 import { ConstructionOutlined } from "@mui/icons-material";
 
-
 const url = window.location.href;
 const urlSplit = url.split("/");
 let apiID = urlSplit[urlSplit.length - 1];
@@ -56,7 +55,7 @@ const UpdateForm = ({ setId, id }) => {
   const param = useParams();
   apiID = param.id;
 
-  console.log(id)
+  console.log(id);
   const saveInputs = (index) => {
     let dataArray = [];
     const existingIndex = inputs.find((element) => element.index === index);
@@ -211,57 +210,78 @@ const UpdateForm = ({ setId, id }) => {
 
   const processImage = (id) => {
     console.log("processImage", elements);
-    setElements([...elements, {type : id, data : {inputFieldName : "", label : "", typeSelectField : ""}}]);
+    setElements([
+      ...elements,
+      {
+        type: id,
+        data: { inputFieldName: "", label: "", typeSelectField: "" },
+      },
+    ]);
   };
   const processComment = (id) => {
     console.log("processComment");
-    setElements([...elements, {type : id, data : {radioValue : "", radioLabel : ""}}]);
+    setElements([
+      ...elements,
+      { type: id, data: { radioValue: "", radioLabel: "" } },
+    ]);
   };
   const processMultipalText = (id) => {
     console.log("processMultipalText");
-    setElements([...elements, {type : id, data :{checkBoxLabel : ""}}]);
+    setElements([...elements, { type: id, data: { checkBoxLabel: "" } }]);
   };
   const processImage3 = (id) => {
     console.log("processImage3");
-    setElements([...elements, {type : id, data :{descriptionPlaceHolder : ""}}]);
+    setElements([
+      ...elements,
+      { type: id, data: { descriptionPlaceHolder: "" } },
+    ]);
   };
 
   const complete = () => {
     console.log("complete");
-
-    console.log("complete");
-    console.log("elements==>", elements);
     setLoader(true);
 
-    const data = {
-      elements,
-    };
-    console.log(id)
-    let axiosCall 
-    if (id !== null) {
-      axiosCall = {
-        url: `https://todo-ac50c-default-rtdb.firebaseio.com/elements/${id}.json`,
-        method: "put",
+    if (
+      elements.every((obj) =>
+        Object.values(obj.data).every((val) => val !== "")
+      )
+    ) {
+      const data = {
+        elements,
       };
-      console.log(axiosCall)
-    }else {
-      axiosCall = { url: "https://todo-ac50c-default-rtdb.firebaseio.com/elements.json", method: "post" };
-    }
+      console.log(id);
+      let axiosCall;
+      if (id !== null) {
+        axiosCall = {
+          url: `https://todo-ac50c-default-rtdb.firebaseio.com/elements/${id}.json`,
+          method: "put",
+        };
+        console.log(axiosCall);
+      } else {
+        axiosCall = {
+          url: "https://todo-ac50c-default-rtdb.firebaseio.com/elements.json",
+          method: "post",
+        };
+      }
 
-    setOpen(true)
-    axios({ ...axiosCall, contentType: "application/json", data })
-      .then((response) => {
-        setEmptyFieldMessage("Data Added Successfully")
-        const data = response.data;
-        console.log("response", response.data);
-        setLoader(false);
-      })
-      .catch((error) => {
-        setOpen(true)
-        setEmptyFieldMessage("Error Occured")
-        console.log("error", error);
-        setLoader(false)
-      });
+      setOpen(true);
+      axios({ ...axiosCall, contentType: "application/json", data })
+        .then((response) => {
+          setEmptyFieldMessage("Data Added Successfully");
+          const data = response.data;
+          console.log("response", response.data);
+          setLoader(false);
+        })
+        .catch((error) => {
+          setOpen(true);
+          setEmptyFieldMessage("Error Occured");
+          console.log("error", error);
+          setLoader(false);
+        });
+    } else {
+      setOpen(true);
+      setEmptyFieldMessage("Kindly Fill All The");
+    }
   };
 
   const drop = (ev) => {
@@ -316,7 +336,7 @@ const UpdateForm = ({ setId, id }) => {
 
     let newElements;
 
-    console.log(elements)
+    console.log(elements);
 
     if (index2 || index2 === 0) {
       console.log("If Condition");
@@ -340,7 +360,6 @@ const UpdateForm = ({ setId, id }) => {
       });
 
       console.log(newElements);
-      
     } else {
       console.log("Else Condition");
       newElements = elements.filter(
@@ -358,12 +377,12 @@ const UpdateForm = ({ setId, id }) => {
     axios({
       // url: `https://dynamic-form-builder-json-server.onrender.com/elements/${param.id}`,
       // url: `http://localhost:3000/elements/${param.id}`,
-      url: `https://todo-ac50c-default-rtdb.firebaseio.com/elements.json`, 
+      url: `https://todo-ac50c-default-rtdb.firebaseio.com/elements.json`,
       method: "get",
     })
       .then((response) => {
-        console.log(response)
-        console.log(response.data[`${id}`].elements )
+        console.log(response);
+        console.log(response.data[`${id}`].elements);
         setElements(response.data[`${id}`].elements);
         setLoader(false);
       })
@@ -371,15 +390,13 @@ const UpdateForm = ({ setId, id }) => {
         setLoader(false);
         console.log("error", error.message);
       });
-
-
   }, []);
 
-console.log(elements) 
+  console.log(elements);
 
   return (
     <>
-     <Typography
+      <Typography
         color="primary"
         variant="h3"
         id="previewText"
