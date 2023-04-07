@@ -38,7 +38,6 @@ const Index = ({ setId }) => {
   const [childElements, setChildElements] = useState([]);
   const [loader, setLoader] = useState(false);
   const [open, setOpen] = useState(false);
-  const [emptyFieldMessage, setEmptyFieldMessage] = useState("");
 
   const [inputFieldName, setInputFieldName] = useState("");
   const [label, setLabel] = useState("");
@@ -47,31 +46,23 @@ const Index = ({ setId }) => {
   const [radioLabel, setRadioLabel] = useState("");
   const [checkBoxLabel, setCheckBoxLabel] = useState("");
   const [descriptionPlaceholder, setDescriptionPlaceholder] = useState("");
-
-  const [inputs, setInputs] = useState([]);
-
-  const [radioFieldValues, setRadioFieldValues] = useState([]);
-  const [checkBoxFieldValues, setCheckBoxFieldValues] = useState([]);
-  const [descriptionValueState, setDescriptionValueState] = useState([]);
+  const [emptyFieldMessage, setEmptyFieldMessage] = useState("");
 
   const param = useParams();
   apiID = param.id;
 
- const saveInputs = (innerIndex,index) =>{
-  let dataArray;
+  const saveInputs = (innerIndex, index) => {
+    let dataArray;
 
-  setElements((prev) => {
-    dataArray = [...prev];
-    dataArray[index].data = { inputFieldName, label, typeSelectField };
-    dataArray[index].data = { inputFieldName, label, typeSelectField };
-    return dataArray;
-  });
- }
+    setElements((prev) => {
+      dataArray = [...prev];
+      dataArray[index].data = { inputFieldName, label, typeSelectField };
+      dataArray[index].data = { inputFieldName, label, typeSelectField };
+      return dataArray;
+    });
+  };
 
-
-
-
-  const saveRadioInputs = (innerIndex,index) => {
+  const saveRadioInputs = (innerIndex, index) => {
     let dataArray;
 
     setElements((prev) => {
@@ -79,10 +70,9 @@ const Index = ({ setId }) => {
       dataArray[index].data = { radioValue, radioLabel };
       return dataArray;
     });
-    
   };
 
-  const saveCheckBox = (innerIndex,index) => {
+  const saveCheckBox = (innerIndex, index) => {
     let dataArray;
 
     setElements((prev) => {
@@ -92,7 +82,7 @@ const Index = ({ setId }) => {
     });
   };
 
-  const descriptionPlaceholderHandler = (innerIndex,index) => {
+  const descriptionPlaceholderHandler = (innerIndex, index) => {
     let dataArray;
 
     setElements((prev) => {
@@ -127,48 +117,67 @@ const Index = ({ setId }) => {
   const processImage = (id) => {
     console.log("processImage", elements);
     // setElements([...elements, {type : id, data :[]}]);
-    setElements([...elements, {type : id, data :{inputFieldName : "", label : "", typeSelectField : "", innerIndex : ""}}]);
+    setElements([
+      ...elements,
+      {
+        type: id,
+        data: { inputFieldName: "", label: "", typeSelectField: "" },
+      },
+    ]);
   };
   const processComment = (id) => {
     console.log("processComment");
-    setElements([...elements, {type : id, data : {radioValue : "", radioLabel : ""}}]);
+    setElements([
+      ...elements,
+      { type: id, data: { radioValue: "", radioLabel: "" } },
+    ]);
   };
   const processMultipalText = (id) => {
     console.log("processMultipalText");
-    setElements([...elements, {type : id, data :{checkBoxLabel : ""}}]);
+    setElements([...elements, { type: id, data: { checkBoxLabel: "" } }]);
   };
   const processImage3 = (id) => {
     console.log("processImage3");
-    setElements([...elements, {type : id, data :{descriptionPlaceHolder : ""}}]);
+    setElements([
+      ...elements,
+      { type: id, data: { descriptionPlaceHolder: "" } },
+    ]);
   };
 
   const complete = () => {
     console.log("complete");
-    console.log("elements==>", elements);
     setLoader(true);
+    if (elements.every(obj => Object.values(obj.data).every(val => val !== ''))) {
+      const data = {
+        elements,
+      };
+      let axiosCall = {
+        url: "https://todo-ac50c-default-rtdb.firebaseio.com/elements.json",
+        method: "post",
+      };
+      axios({ ...axiosCall, contentType: "application/json", data })
+        .then((response) => {
+          setOpen(true);
+          setEmptyFieldMessage("Data Added Successfully");
+          const data = response.data;
+          console.log("response", response.data.name);
+          setId(response.data.name);
+          setLoader(false);
+        })
+        .catch((error) => {
+          setOpen(true);
+          setEmptyFieldMessage("Error Occured");
+          console.log("error", error);
+          setLoader(false);
+        });
 
-    const data = {
-      elements,
-    };
-
-    let axiosCall = { url: "https://todo-ac50c-default-rtdb.firebaseio.com/elements.json", method: "post" };
-    
-    axios({ ...axiosCall, contentType: "application/json", data })
-      .then((response) => {
+    }else{
+        console.log("not done")
         setOpen(true)
-        setEmptyFieldMessage("Data Added Successfully")
-        const data = response.data;
-        console.log("response", response.data.name);
-        setId(response.data.name);
-        setLoader(false);
-      })
-      .catch((error) => {
-        setOpen(true)
-        setEmptyFieldMessage("Error Occured")
-        console.log("error", error);
+        setEmptyFieldMessage("Kindly Fill All the Values")
         setLoader(false)
-      });
-  
+    }
+    
   };
 
   const drop = (ev) => {
@@ -219,8 +228,6 @@ const Index = ({ setId }) => {
   };
 
   const deleteMe = (index) => {
-
-
     const newElements = elements.filter(
       (element, elementIndex) => elementIndex !== index
     );
@@ -229,7 +236,6 @@ const Index = ({ setId }) => {
     );
     setElements([...newElements]);
     setChildElements([...newChildElements]);
-
   };
 
   return (

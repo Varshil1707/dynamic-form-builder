@@ -1,6 +1,6 @@
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
+import React, { useState } from "react";
 
 const Comment = ({
   setRadioValue,
@@ -12,12 +12,10 @@ const Comment = ({
   index2,
   elements,
 }) => {
-  let innerIndex;
-  for (let i = 0; i <= index; i++) {
-    innerIndex = i;
-  }
+  
+  const regex = /^[A-Za-z ]*$/
+  const [isValid, setIsValid] = useState(false)
 
-  console.log(elements);
   return (
     <div>
       <Box
@@ -43,16 +41,28 @@ const Comment = ({
               ? (e) =>
                   setElements((prev) => {
                     const newArray = [...prev];
-                    newArray[index].data[index2].radioValue = e.target.value;
+                    if(regex.test(e.target.value)){
+                      newArray[index].data[index2].radioValue = e.target.value;
+                      setIsValid(false)
+                      return newArray;
+                    }else{
+                      setIsValid(true)
+                      return prev
+                    }
 
-                    return newArray;
                   })
               : (e) =>
                   setElements((prev) => {
                     let newArray = [...prev];
-                    newArray[index].data.radioValue =
+                    if(regex.test(e.target.value)){
+                      setIsValid(false)
+                      newArray[index].data.radioValue =
                       e.target.value;
-                    return newArray;
+                      return newArray;
+                    }else{
+                      setIsValid(true)
+                      return prev
+                    }
                   })
           }
           value={value ? value.radioValue : elements[index].data.radioValue}
@@ -72,9 +82,15 @@ const Comment = ({
               :  (e) =>
               setElements((prev) => {
                 let newArray = [...prev];
-                newArray[index].data.radioLabel =
+                if(regex.test(e.target.value)){
+                  newArray[index].data.radioLabel =
                   e.target.value;
-                return newArray;
+                  setIsValid(false)
+                  return newArray;
+                }else{
+                  setIsValid(true)
+                  return prev
+                }
               })
           }
           value={value ? value.radioLabel : elements[index].data.radioLabel} 
@@ -82,6 +98,9 @@ const Comment = ({
 
       
       </Box>
+      {isValid &&   <Typography  color="error">
+      Only Characters are Allowed
+    </Typography>}
     </div>
   );
 };

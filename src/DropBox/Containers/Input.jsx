@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
-import { Button, selectClasses, TextField } from "@mui/material";
+import { Button, selectClasses, TextField, Typography } from "@mui/material";
 import { KeyboardArrowDown } from "@mui/icons-material";
 import { Option, Select } from "@mui/joy";
 import{ uid} from "uid/single"
@@ -23,7 +23,10 @@ for(let i = 0 ; i <= index;i++) {
 }
 
 
-  return (
+const regex = /^[A-Za-z ]*$/
+  const [errorMessage, setErrorMessage] = useState(false) 
+
+return (
     <div>
       <Box
         component="form"
@@ -40,25 +43,29 @@ for(let i = 0 ; i <= index;i++) {
         }}
       >
         <TextField
+        onBlur={() => {console.log(index)}}
           variant="outlined"
           name="inputValue"
           placeholder="Enter Field Name"
-
           onChange={
             value
               ? (e) =>
                   setElements((prev) => {
                     const newArray = [...prev];
-                    newArray[index].data[index2].inputFieldName =
-                      e.target.value;
-
+                    newArray[index].data[index2].inputFieldName = e.target.value;
                     return newArray;
                   })  
-              // : (e) => setInputField(e.target.value)
               : (e) => setElements((prev) => {
                 let newArray = [...prev]
-                newArray[index].data.inputFieldName = e.target.value
-                return newArray
+                    if(regex.test(e.target.value)){
+                      newArray[index].data.inputFieldName = e.target.value
+                      setErrorMessage(false)
+                      return newArray
+                    }else{
+                      setErrorMessage(true)
+                      return prev
+                    }
+               
               })
           }  
           value={value ? value.inputFieldName : elements[index].data.inputFieldName}
@@ -71,21 +78,29 @@ for(let i = 0 ; i <= index;i++) {
               ? (e) =>
                   setElements((prev) => {
                     const newArray = [...prev];
-                    newArray[index].data[index2].label = e.target.value;
-
-
-                    return newArray;
+                    if(regex.test(e.target.value)){
+                      newArray[index].data[index2].label = e.target.value;
+                      return newArray;
+                    }else {
+                      setErrorMessage("Only Characters are Allowed")
+                      return prev
+                    }
                   })
               :  (e) => setElements((prev) => {
                 let newArray = [...prev]
-                newArray[index].data.label = e.target.value
-                return newArray
+                if(regex.test(e.target.value)){
+                  newArray[index].data.label = e.target.value
+                  setErrorMessage(false)
+                  return newArray
+                }else{
+                  setErrorMessage(true)
+                  return prev
+                }
               })
           }
           value={value ? value.label : elements[index].data.label}
         />
         <Select
-          // onChange={(e, newValue) => setTypeSelectField(newValue)}
           onChange={
             value
               ? (e, newValue) =>
@@ -95,14 +110,13 @@ for(let i = 0 ; i <= index;i++) {
                     return newArray;
                   })
               : (e,newValue) => setElements((prev) => {
-                let newArray = [...prev]
+                let newArray = [...prev] 
                 newArray[index].data.typeSelectField = newValue
                 return newArray
               })
           }
           placeholder="Select Field Type..."
           indicator={<KeyboardArrowDown />}
-          // value={value && value.typeSelectField}
           value={value ? value.typeSelectField : elements[index].data.typeSelectField}
           sx={{
             width: 240,
@@ -120,6 +134,9 @@ for(let i = 0 ; i <= index;i++) {
         </Select>
 
       </Box>
+      {errorMessage &&   <Typography  color="error">
+      Only Characters are Allowed
+    </Typography>}
     </div>
   );
 };

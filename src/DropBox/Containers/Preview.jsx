@@ -15,7 +15,7 @@ import RadioBox from "./PreviewComponents/RadioBox";
 import CheckBox from "./PreviewComponents/CheckboxPreview";
 import TextArea from "./PreviewComponents/TextArea";
 import { LinearProgress } from "@mui/material";
-//import Footer from '../../LeftBar/Footer'
+
 
 const drawerWidth = 240;
 

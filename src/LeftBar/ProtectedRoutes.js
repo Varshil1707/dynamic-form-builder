@@ -1,17 +1,17 @@
-import React from 'react'
-import { Navigate } from 'react-router-dom'
-import Preview from '../DropBox/Containers/Preview'
+import React from "react";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import Preview from "../DropBox/Containers/Preview";
+import { Test } from "./Index";
 
-const ProtectedRoutes = (params) => {
-    console.log(params)
+const ProtectedRoutes = ({ id, handleDrawerClose, open, theme, setId }) => {
+  const location = useLocation();
+  const isPreview = /preview/.test(location.pathname);
+  console.log(isPreview);
+  if (id !== null) {
+    return <Preview id={id} />;
+  } else {
+    return <Navigate to="/" />;
+  }
+};
 
-    if(params.params === null){
-     return <Navigate to="/"/>   
-    }else {
-        return <Preview/>
-    }
-    
-
-}
-
-export default ProtectedRoutes
+export default ProtectedRoutes;

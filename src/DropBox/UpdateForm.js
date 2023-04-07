@@ -243,6 +243,7 @@ const UpdateForm = ({ setId, id }) => {
         url: `https://todo-ac50c-default-rtdb.firebaseio.com/elements/${id}.json`,
         method: "put",
       };
+      console.log(axiosCall)
     }else {
       axiosCall = { url: "https://todo-ac50c-default-rtdb.firebaseio.com/elements.json", method: "post" };
     }
@@ -252,8 +253,7 @@ const UpdateForm = ({ setId, id }) => {
       .then((response) => {
         setEmptyFieldMessage("Data Added Successfully")
         const data = response.data;
-        console.log("response", response.data.name);
-        setId(response.data.name);
+        console.log("response", response.data);
         setLoader(false);
       })
       .catch((error) => {

@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 
 export const Image3 = ({
   index,
-  setDescriptionPlaceholder,
-  descriptionPlaceholderHandler,
   value,
   index2,
   setElements,
@@ -17,6 +15,9 @@ export const Image3 = ({
   }
 
   console.log(elements);
+
+  const regex = /^[A-Za-z ]*$/
+  const [isValid, setIsValid] = useState(false)
 
   return (
     <div>
@@ -51,9 +52,15 @@ export const Image3 = ({
               : (e) =>
                   setElements((prev) => {
                     let newArray = [...prev];
-                    newArray[index].data.descriptionPlaceHolder =
-                      e.target.value;
-                    return newArray;
+                    if(regex.test(e.target.value)){
+                      setIsValid(false)
+                      newArray[index].data.descriptionPlaceHolder =
+                      e.target.value; 
+                      return newArray;
+                    }else {
+                      setIsValid(true)
+                      return prev
+                    }
                   })
           }
           value={
@@ -63,6 +70,9 @@ export const Image3 = ({
           }
         />
       </Box>
+      {isValid &&   <Typography  color="error">
+      Only Characters are Allowed
+    </Typography>}
     </div>
   );
 };

@@ -111,7 +111,7 @@ const Content = ({ open, handleDrawerClose, theme, setId }) => {
   );
 };
 
-const Test = ({ open, handleDrawerClose, theme, setId, id }) => {
+ export const Test = ({ open, handleDrawerClose, theme, setId, id }) => {
   return (
     <>
       <Drawer variant="permanent" open={open}>
@@ -198,7 +198,9 @@ export default function MiniDrawer() {
               />
             }
           />
-          {/* <Route path="/preview" element={<ProtectedRoutes params={id}> </ProtectedRoutes>  } /> */}
+          {/* <Route path="/preview" element={<ProtectedRoutes id={id} setId={setId}   open={open} handleDrawerClose={handleDrawerClose} theme={theme}> </ProtectedRoutes>  } /> */}
+        
+          
           <Route path="/preview" element={<Preview id={id}/>} />
 
           <Route
